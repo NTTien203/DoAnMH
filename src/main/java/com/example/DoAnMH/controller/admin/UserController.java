@@ -1,14 +1,14 @@
-package com.example.DoAnMH.controllers.admin;
+package com.example.DoAnMH.controller.admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("admin/Products")
-public class ProductController {
+@RequestMapping("admin/User")
+public class UserController {
     @GetMapping
     public String index(){
-        return "Admin/Products/index";
+        return "Admin/User/index";
     }
 }

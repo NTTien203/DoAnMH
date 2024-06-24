@@ -1,4 +1,4 @@
-package com.example.DoAnMH.controllers;
+package com.example.DoAnMH.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
