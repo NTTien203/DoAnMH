@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="~{Layout}"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div class="bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 p-4">
+    <div class="container-fluid" layout:fragment="Content1">
+    <main class="max-w-6xl mx-auto py-8">
+
+        <nav class="text-sm mb-4">
+            <a href="#" class="text-zinc-600 dark:text-zinc-300 hover:text-black dark:hover:text-white">Home</a> >
+            <a href="#" class="text-zinc-600 dark:text-zinc-300 hover:text-black dark:hover:text-white">Shop</a> >
+            <a href="#" class="text-zinc-600 dark:text-zinc-300 hover:text-black dark:hover:text-white">Men</a> >
+            <a href="#" class="text-zinc-600 dark:text-zinc-300 hover:text-black dark:hover:text-white">T-shirts</a>
+        </nav>
+
+        <section class="grid md:grid-cols-2 gap-8">
+
+            <div class="space-y-4">
+                <img src="/images/lenovoDS.jpg" alt="Product Image" class="w-full rounded-lg">
+                <div class="flex space-x-2">
+                    <img src="/images/AcerNB.jpg" alt="Thumbnail 1" class="w-20 h-20 rounded-lg">
+                    <img src="/images/AcerDS.jpg" alt="Thumbnail 2" class="w-20 h-20 rounded-lg">
+                    <img src="/images/AsusDS.jpg" alt="Thumbnail 3" class="w-20 h-20 rounded-lg">
+                    <img src="/images/laptopMSI.jpg" alt="Thumbnail 4" class="w-20 h-20 rounded-lg">
+                </div>
+            </div>
+
+
+            <div>
+                <h1 class="text-2xl font-bold">ONE LIFE GRAPHIC T-SHIRT</h1>
+                <div class="flex items-center space-x-2 mb-4">
+                    <span class="text-yellow-500">★★★★☆</span>
+                    <span>4/5</span>
+                </div>
+                <div class="flex items-center space-x-4 mb-4">
+                    <span class="text-2xl font-bold">$260</span>
+                    <span class="line-through text-zinc-500">$300</span>
+                    <span class="text-red-500">-40%</span>
+                </div>
+                <p class="mb-4">This graphic t-shirt which is perfect for any occasion. Crafted from a soft and breathable fabric, it offers superior comfort and style.</p>
+                <div class="mb-4">
+                    <span class="font-bold">Select Colors:</span>
+                    <div class="flex space-x-2 mt-2">
+                        <span class="w-8 h-8 bg-green-500 rounded-full border"></span>
+                        <span class="w-8 h-8 bg-blue-500 rounded-full border"></span>
+                        <span class="w-8 h-8 bg-red-500 rounded-full border"></span>
+                        <span class="w-8 h-8 bg-yellow-500 rounded-full border"></span>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <span class="font-bold">Choose Size:</span>
+                    <div class="flex space-x-2 mt-2">
+                        <button class="border rounded-lg px-4 py-2">Small</button>
+                        <button class="border rounded-lg px-4 py-2">Medium</button>
+                        <button class="border rounded-lg px-4 py-2 bg-black text-white">Large</button>
+                        <button class="border rounded-lg px-4 py-2">X-Large</button>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center border rounded-lg">
+                        <button class="px-4 py-2">-</button>
+                        <input type="text" value="1" class="w-12 text-center border-l border-r">
+                        <button class="px-4 py-2">+</button>
+                    </div>
+                    <button class="bg-black text-white rounded-lg px-6 py-2">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+
+        <div class="mt-8">
+            <div class="flex space-x-4 border-b">
+                <button class="py-2 px-4 border-b-2 border-black">Product Details</button>
+                <button class="py-2 px-4">Rating & Reviews</button>
+                <button class="py-2 px-4">FAQs</button>
+            </div>
+
+
+            <div class="mt-4">
+                <h2 class="text-xl font-bold mb-4">All Reviews (451)</h2>
+                <div class="space-y-4">
+                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-yellow-500">★★★★★</span>
+                                <span>Samantha D.</span>
+                            </div>
+                            <span class="text-zinc-500">Posted on August 14, 2023</span>
+                        </div>
+                        <p>I absolutely love this t-shirt! The design is unique and the fabric feels so comfortable. As a fellow designer, I appreciate the attention to detail. It's become my favorite go-to shirt.</p>
+                    </div>
+                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-yellow-500">★★★★☆</span>
+                                <span>Alex M.</span>
+                            </div>
+                            <span class="text-zinc-500">Posted on August 15, 2023</span>
+                        </div>
+                        <p>This t-shirt exceeded my expectations! The colors are vibrant and the print quality is top-notch. Being a UI/UX designer myself, I'm quite picky about aesthetics, and this t-shirt definitely gets a thumbs up from me.</p>
+                    </div>
+                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-yellow-500">★★★★★</span>
+                                <span>Olivia P.</span>
+                            </div>
+                            <span class="text-zinc-500">Posted on August 17, 2023</span>
+                        </div>
+                        <p>As a UI/UX enthusiast, I value simplicity and functionality. This t-shirt not only incorporates those principles but also looks great to wear. It's evident that the designer poured their creativity into making this t-shirt stand out.</p>
+                    </div>
+                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-yellow-500">★★★★★</span>
+                                <span>Ethan R.</span>
+                            </div>
+                            <span class="text-zinc-500">Posted on August 18, 2023</span>
+                        </div>
+                        <p>This t-shirt is a must-have for anyone who appreciates good design. The minimalist yet stylish pattern caught my eye, and the fit is perfect. I can see the designer's touch in every aspect of this shirt.</p>
+                    </div>
+                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-yellow-500">★★★★☆</span>
+                                <span>Ava H.</span>
+                            </div>
+                            <span class="text-zinc-500">Posted on August 19, 2023</span>
+                        </div>
+                        <p>I'm not just wearing a t-shirt; I'm wearing a piece of design philosophy. The clean lines and thoughtful layout of the design makes this t-shirt a conversation starter.</p>
+                    </div>
+                </div>
+                <button class="mt-4 px-4 py-2 border rounded-lg">Load More Reviews</button>
+            </div>
+        </div>
+
+
+        <section class="mt-8">
+            <h2 class="text-xl font-bold mb-4">You Might Also Like</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
+                    <img src="https://placehold.co/200x200" alt="Product 1" class="w-full rounded-lg mb-2">
+                    <h3 class="text-lg font-bold">Polo with Contrast Trims</h3>
+                    <div class="flex items-center space-x-2 mb-2">
+                        <span class="text-yellow-500">★★★★☆</span>
+                        <span>4/5</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl font-bold">$212</span>
+                        <span class="line-through text-zinc-500">$242</span>
+                        <span class="text-red-500">-20%</span>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
+                    <img src="https://placehold.co/200x200" alt="Product 2" class="w-full rounded-lg mb-2">
+                    <h3 class="text-lg font-bold">Gradient Graphic T-shirt</h3>
+                    <div class="flex items-center space-x-2 mb-2">
+                        <span class="text-yellow-500">★★★☆☆</span>
+                        <span>3/5</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl font-bold">$145</span>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
+                    <img src="https://placehold.co/200x200" alt="Product 3" class="w-full rounded-lg mb-2">
+                    <h3 class="text-lg font-bold">Polo with Tipping Details</h3>
+                    <div class="flex items-center space-x-2 mb-2">
+                        <span class="text-yellow-500">★★★★☆</span>
+                        <span>4/5</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl font-bold">$180</span>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
+                    <img src="https://placehold.co/200x200" alt="Product 4" class="w-full rounded-lg mb-2">
+                    <h3 class="text-lg font-bold">Black Striped T-shirt</h3>
+                    <div class="flex items-center space-x-2 mb-2">
+                        <span class="text-yellow-500">★★★★★</span>
+                        <span>5/5</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl font-bold">$120</span>
+                        <span class="line-through text-zinc-500">$160</span>
+                        <span class="text-red-500">-25%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    </div>
+
+</div>
+</body>
+</html>
