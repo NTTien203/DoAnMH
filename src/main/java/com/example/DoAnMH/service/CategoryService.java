@@ -1,13 +1,13 @@
-package service;
+package com.example.DoAnMH.service;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 
 
-import model.Category;
+import com.example.DoAnMH.model.Category;
 import org.springframework.stereotype.Service;
-import repository.CategoryRepository;
+import com.example.DoAnMH.repository.CategoryRepository;
 
 
 import java.util.List;

@@ -1,11 +1,11 @@
-package service;
+package com.example.DoAnMH.service;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import model.Product;
+import com.example.DoAnMH.model.Product;
 import org.springframework.stereotype.Service;
-import repository.ProductRepository;
+import com.example.DoAnMH.repository.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,8 +23,8 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public void addProduct( Product product) {
-        productRepository.save(product);
+    public Product addProduct( Product product) {
+        return productRepository.save(product);
     }
 
     public void UpdateProduct(@NotNull Product product){
