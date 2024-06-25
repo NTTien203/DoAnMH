@@ -52,7 +52,13 @@ public class CategoryController {
             return "admin/Category/UpdateCategory";
         }
         categoryService.UpdateCategory(category);
-        return "redirect:/admin/categories";
+        return "redirect:/admin/Category";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
+        return "redirect:/admin/Category";
     }
 }
 
