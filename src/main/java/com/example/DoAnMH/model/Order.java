@@ -1,24 +1,25 @@
-package model;
+package com.example.DoAnMH.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Getter
+import java.util.List;
+
 @Setter
+@Getter
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "categories")
-public class Category {
+@Table(name = "orders")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
-    private String name;
-    @NotBlank
-    private String description;
+    private String customerName;
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetail> orderDetails;
 }
+
