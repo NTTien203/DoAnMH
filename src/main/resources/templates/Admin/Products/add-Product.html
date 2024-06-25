@@ -10,7 +10,7 @@
 <body>
 <div class="container-fluid" layout:fragment="Content">
     <h1>Add New Product</h1>
-    <form th:action="@{admin/Products/add}" th:object="${product}" method="post"
+    <form th:action="@{/admin/Products/add}" th:object="${product}" method="post"
           class="needs-validation" novalidate>
         <div class="mb-3">
             <label for="name" class="form-label">Name:</label>

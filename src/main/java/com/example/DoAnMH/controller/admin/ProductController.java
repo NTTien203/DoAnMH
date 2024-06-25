@@ -41,10 +41,10 @@ public class ProductController {
     @PostMapping("/add")
     public String addProduct(@Valid Product product, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return "redirect:admin/Products";
+            return "redirect:/admin/Products";
         }
         productService.addProduct(product);
-        return "redirect:admin/Products";
+        return "redirect:/admin/Products";
     }
     @GetMapping("/edit/{id}")
     public String ShowEditForm(@PathVariable Long id, Model model){
