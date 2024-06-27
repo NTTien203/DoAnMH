@@ -57,9 +57,15 @@ public class ProductController {
     @PostMapping("/edit/{id}")
     public String updateProduct(@PathVariable Long id,@Valid Product product,BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
-            return "admin/Category/UpdateCategory";
+            return "admin/Products/UpdateCategory";
         }
         productService.UpdateProduct(product);
+        return "redirect:/admin/Products";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
         return "redirect:/admin/Products";
     }
 }
