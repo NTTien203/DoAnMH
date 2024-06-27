@@ -10,33 +10,52 @@
 <body>
 <div class="container-fluid" layout:fragment="Content">
     <h1>Add New Product</h1>
-    <form th:action="@{/admin/Products/add}" th:object="${product}" method="post"
-          class="needs-validation" novalidate>
+    <form th:action="@{/admin/Products/add}" th:object="${product}" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+        <div style="position: relative; width: 100%" th:if="${errors}" class="alert alert-danger justify-content-center" role="alert">
+            <ul>
+                <li th:each="error : ${errors}" th:text="${error}" class="text-danger text-start"></li>
+            </ul>
+        </div>
         <div class="mb-3">
-            <label for="name" class="form-label">Name:</label>
+            <label for="name" class="form-label">Tên sản phẩm:</label>
             <input type="text" th:field="*{name}" class="form-control" id="name" required>
             <div class="text-danger" th:if="${#fields.hasErrors('name')}"
                  th:errors="*{name}"></div>
         </div>
         <div class="mb-3">
-            <label for="price" class="form-label">Price:</label>
+            <label for="price" class="form-label">Giá:</label>
             <input type="text" th:field="*{price}" class="form-control" id="price" required>
         </div>
         <div class="mb-3">
-            <label for="categoryId" class="form-label">Ten Phong</label>
+            <label for="quantityStock" class="form-label">Số lượng tồn:</label>
+            <input type="text" th:field="*{quantityStock}" class="form-control" id="quantityStock" required>
+        </div>
+        <div class="mb-3">
+            <label for="categoryId" class="form-label">Loại:</label>
             <select class="form-control" id="categoryId" th:field="*{categoryId}">
                 <option th:each="categoryId:${categories}"
                         th:text="${categoryId.name}" th:value="${categoryId.id}"></option>
             </select>
         </div>
-<!--        <div class="mb-3">-->
-<!--            <label for="description" class="form-label">Description:</label>-->
-<!--            <textarea th:field="*{description}" class="form-control"-->
-<!--                      id="description" required></textarea>-->
+        <div class="mb-3">
+            <label for="discountId" class="form-label">Chọn giảm giá:</label>
+            <select class="form-control" id="discountId" th:field="*{discountId}">
+                <option th:each="d:${discounts}"
+                        th:text="${d.discount}" th:value="${d.id}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Mô tả sản phẩm:</label>
+            <textarea th:field="*{description}" class="form-control"
+                      id="description" required></textarea>
 
-<!--        </div>-->
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Chọn ảnh:</label>
+            <input type="file" name="files" multiple="multiple" required/>
+        </div>
         <button type="submit" class="btn btn-primary">Add Product</button>
-        <a th:href="@{/products}" class="btn btn-link">Cancel</a>
+        <a th:href="@{/admin/Products}" class="btn btn-link">Cancel</a>
     </form>
         </div>
 
