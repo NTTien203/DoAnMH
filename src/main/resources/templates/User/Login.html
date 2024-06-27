@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    >
 <head>
     <title>Login</title>
     <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css}" />
@@ -11,18 +11,11 @@
     <div class="form-container sign-in-container">
         <div class="main-login">
             <h1 style="background-image: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%); background-clip: text; color: transparent;">Đăng nhập</h1>
-            <form id="account" asp-route-returnUrl="@Model.ReturnUrl" class="form">
-                <div class="social-container">
-                </div>
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input  type="text" asp-for="Input.Email" placeholder="Email"  aria-required="true" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-
-                <input asp-for="Input.Password" type="text" placeholder="Password" aria-required="true" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-                <a id="forgot-password" asp-page="./ForgotPassword" style="color: #7777e0;">Forgot your password?</a>
-                <button id="login-submit" type="submit" class="btn">Log in</button>
-
+            <form id="account" th:action="@{/login}" method="post" class="form">
+                <input  type="text" id="username" name="username"  placeholder="Tên Người Dùng"  aria-required="true"/>
+                <input  type="password" id="password" name="password" placeholder="Mật Khẩu" aria-required="true" />
+                <a id="forgot-password"  style="color: #7777e0;">Forgot your password?</a>
+                <button id="login-submit" type="submit" class="btn">Đăng nhập</button>
             </form>
         </div>
     </div>
@@ -33,22 +26,18 @@
                 <p>
                     To keep connected with us please login with your personal info
                 </p>
-                <button class="btn ghost" id="signIn">Sign In</button>
+                <button class="btn ghost" id="signIn">Đăng kí</button>
             </div>
             <div class="overlay-panel overlay-right">
                 <h1>Xin Chào!</h1>
                 <p>Nhập thông tin cá nhân của bạn và bắt đầu hành trình cùng chúng tôi</p>
-                <a class="btn ghost" href="#">Sign Up</a>
+                <a class="btn ghost" href="/register">Dăng kí</a>
             </div>
         </div>
     </div>
 </div>
 
 <footer>
-<!--    @*  <p>-->
-<!--    Created with <i class="fa fa-heart"></i> by-->
-<!--    <a target="_blank" href="https://github.com/dattv23">Truong Van Dat</a>-->
-<!--</p> *@-->
 </footer>
 <script th:src="@{https://kit.fontawesome.com/4cba97720e.js}"
         crossorigin="anonymous"></script>

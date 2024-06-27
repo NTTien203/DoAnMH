@@ -25,32 +25,38 @@
         <div class="main-login">
             <h1 style="background-image: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%); background-clip: text; color: transparent;">Tạo tài khoản</h1>
 
-            <form id="registerForm" method="post" style="margin-top: 5px">
-
-                <div style="position: relative; width: 100%">
-                    <input asp-for="Input.UserName" class="form-control"  aria-required="true" placeholder="Tên" />
-                    <span asp-validation-for="Input.UserName" class="text-danger" style="position: absolute; top: -6px; height: 0px"></span>
+            <form th:action="@{/register}" method="post" th:object="${user}" style="margin-top: 5px" enctype="multipart/form-data">
+                <div style="position: relative; width: 100%" th:if="${errors}" class="alert alert-danger justify-content-center" role="alert">
+                    <ul>
+                        <li th:each="error : ${errors}" th:text="${error}" class="text-danger text-start"></li>
+                    </ul>
+                </div>
+                <div style="position: relative; width: 100%" th:if="${errorMessage}" class="alert alert-danger justify-content-center" role="alert">
+                        <li  th:text=${errorMessage} class="text-danger text-start"></li>
                 </div>
                 <div style="position: relative; width: 100%">
-                    <input asp-for="Input.PhoneNumber" class="form-control" aria-required="true" placeholder="Số điện thoại" />
-                    <span asp-validation-for="Input.PhoneNumber" class="text-danger" style="position: absolute; top: -6px; height: 0px"></span>
-                </div>
-
-                <div style="position: relative; width: 100%">
-                    <input asp-for="Input.Email" type="text" placeholder="Email"  aria-required="true" />
-                    <span asp-validation-for="Input.Email" class="text-danger" style="position: absolute; top: -6px; height: 0px"></span>
+<!--                    <label for="fullname" class="form-label">Họ và Tên</label>-->
+                    <input type="text" class="form-control" id="fullname" placeholder="Họ và Tên" th:field="*{fullname}">
                 </div>
 
+                <div style="position: relative; width: 100%">
+<!--                    <label for="username" class="form-label">Tên người dùng</label>-->
+                    <input type="text" class="form-control" id="username" placeholder="Tên người dùng" th:field="*{username}">
+                </div>
+                <div style="position: relative; width: 100%">
+<!--                    <label for="password" class="form-label">Mật khẩu</label>-->
+                    <input type="password" class="form-control" id="password" placeholder="Mật khẩu" th:field="*{password}">
+                </div>
 
                 <div style="position: relative; width: 100%">
-                    <input asp-for="Input.Password" type="text" placeholder="Mật khẩu" class="form-control" aria-required="true" />
-                    <span asp-validation-for="Input.Password" class="text-danger" style="position: absolute; top: -6px; height: 0px"></span>
+<!--                    <label for="email"  class="form-label">Email</label>-->
+                    <input type="text" class="form-control" id="email" placeholder="Email" th:field="*{email}">
                 </div>
                 <div style="position: relative; width: 100%">
-                    <input asp-for="Input.ConfirmPassword" type="text" placeholder="Xác nhận mật khẩu" class="form-control" aria-required="true" />
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger" style="position: absolute; top: -6px; height: 0px"></span>
+<!--                    <label for="confirmpassword" class="form-label">Xác nhận mật khẩu</label>-->
+                    <input type="password" class="form-control" id="confirmpassword" placeholder="Xác nhận mật khẩu" th:field="*{confirmpassword}">
                 </div>
-                <button id="registerSubmit" type="submit" class="btn" style="margin-top: 15px">Sign Up</button>
+                <button id="registerSubmit" type="submit" class="btn" style="margin-top: 15px">Đăng kí</button>
             </form>
         </div>
     </div>
@@ -62,7 +68,7 @@
                 <p>
                     Hãy tạo tài khoản để kết nối với ứng dụng của chúng tôi!
                 </p>
-                <a class="btn ghost" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                <a class="btn ghost" href="/login">Login</a>
             </div>
         </div>
     </div>

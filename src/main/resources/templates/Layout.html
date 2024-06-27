@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.w3.org/1999/xhtml">
+      xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +21,12 @@
             </nav>
             <div class="flex items-center space-x-4">
                 <input type="text" placeholder="Search for products..." class="border rounded-lg px-3 py-1 dark:bg-zinc-800 dark:border-zinc-700">
-                <a href="#" class="hover:text-zinc-700 dark:hover:text-zinc-300">Sign In</a>
+               <div sec:authorize="isAuthenticated()">
+                    <span>Xin chào, <span th:text="${#authentication.name}"></span>!</span>
+                </div>
+                <div sec:authorize="!isAuthenticated()">
+                    <a href="/login" class="hover:text-zinc-700 dark:hover:text-zinc-300">Đăng nhập</a>
+                </div>
             </div>
         </div>
     </header>
