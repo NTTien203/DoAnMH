@@ -35,4 +35,9 @@ public class HomeController {
         return "User/AddtoCart"; // This should match the name of your HTML file without the .html extension
     }
 
+
+    @GetMapping("/test")
+    public String Addto11() {
+        return "User/test"; // This should match the name of your HTML file without the .html extension
+    }
 }
