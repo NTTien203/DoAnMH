@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en"
       layout:decorate="~{Layout}"
-      xmlns:layout="http://www.w3.org/1999/xhtml">
+      xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
+<!--    <script src="https://cdn.tailwindcss.com"></script>-->
+    <link rel="stylesheet" th:href="@{output.css}">
 </head>
+
 <body>
 <div class="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100">
     <div class="container-fluid" layout:fragment="Content1">
@@ -56,7 +58,7 @@
             </div>
         </section>
 
-        <section class="container mx-auto py-16 px-6">
+        <section class="container mx-auto py-16 px-6" style="background-color: #F9E79F;">
             <h2 class="text-3xl font-bold mb-8 text-center">Deal Sốc</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
@@ -116,7 +118,7 @@
             </div>
         </section>
 
-        <section class="container mx-auto py-16 px-6">
+        <section class="container mx-auto py-16 px-6" style="background-color: #FADBD8;">
             <h2 class="text-3xl font-bold mb-8 text-center">Nổi bật</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
@@ -177,7 +179,7 @@
         </section>
 
 
-        <section class="container mx-auto py-16 px-6">
+        <section class="container mx-auto py-16 px-6" style="background-color: #3498DB;">
             <h2 class="text-3xl font-bold mb-8 text-center">MacBook</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
@@ -218,7 +220,7 @@
             </div>
         </section>
 
-        <section class="container mx-auto py-16 px-6">
+        <section class="container mx-auto py-16 px-6" style="background-color: #95A5A6;">
             <h2 class="text-3xl font-bold mb-8 text-center">Browse by Dress Style</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
