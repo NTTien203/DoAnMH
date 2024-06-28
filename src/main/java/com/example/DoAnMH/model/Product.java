@@ -48,6 +48,8 @@ public class Product {
     @JoinColumn(name = "discountId")
     Discount discountId;
 
+    public Double priceDiscount;
+
     private String imagesJson;
 
     public void convertImagesToJson(List<String>im) {

@@ -55,20 +55,34 @@ public class ProductController {
         return "Admin/Products/add-Product";
     }
     @PostMapping("/add")
-    public String addProduct(@Valid Product product,@NotNull BindingResult bindingResult, @RequestParam("files") MultipartFile[] files, RedirectAttributes redirectAttributes, Model model) throws IOException {
+    public String addProduct(@Valid Product product,BindingResult bindingResult, @RequestParam("files") MultipartFile[] files, RedirectAttributes redirectAttributes, Model model) throws IOException {
         model.addAttribute("product",product);
         model.addAttribute("categories",categoryService.getAllCategory());
         model.addAttribute("discounts",discountService.getAllDiscount());
         if(bindingResult.hasErrors()){
-            var errors = bindingResult.getAllErrors() // Lấy tất cả lỗi
+            String[] errors = bindingResult.getAllErrors()
                     .stream()
+                    .filter(error -> !(error instanceof FieldError) || !((FieldError) error).getField().equals("images"))
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                    .toArray(String[]::new); // Chuyển các lỗi thành mảng String
-            model.addAttribute("errors", errors);
-            return "redirect:/admin/add-Product";
+                    .toArray(String[]::new);
+            if (errors.length > 0) {
+                model.addAttribute("errors", errors);
+                return "Admin/Products/add-Product";
+            }
+
         }
-        if(files == null){
-            return "redirect:/admin/add-Product";
+        boolean allFilesEmpty = true;
+        for (MultipartFile file : files) {
+            if (!file.isEmpty()) {
+                allFilesEmpty = false;
+                break;
+            }
+        }
+        if(allFilesEmpty){
+            List<String>errors = new ArrayList<>();
+            errors.add("Hãy nhập ảnh!!!");
+            model.addAttribute("errors",errors);
+            return "Admin/Products/add-Product";
         }
         List<String>IM = new ArrayList<>();
         for(MultipartFile image : files){
@@ -77,7 +91,7 @@ public class ProductController {
                 IM.add("/images/"+imageUrl);
             }
         }
-        product.setImages(IM);
+        product.setImages(new ArrayList<>());
         product.convertImagesToJson(IM);
          productService.addProduct(product);
         return "redirect:/admin/Products";

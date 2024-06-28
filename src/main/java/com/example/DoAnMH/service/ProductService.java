@@ -26,14 +26,18 @@ public class ProductService {
     public void addProduct( Product product) {
          productRepository.save(product);
     }
-
+    public List<Product> getProductsSortedByDiscount() {
+        return productRepository.findAllByOrderByDiscountDesc();
+    }
+    public List<Product> getProductsByCategoryName(String categoryName) {
+        return productRepository.findAllByCategoryName(categoryName);
+    }
     public void UpdateProduct(@NotNull Product product){
         Product existingProduct=productRepository.findById(product.getId()).
                 orElseThrow(()->new IllegalArgumentException("NhanVien with Id"+
                         product.getId()+"does not exist."));
         existingProduct.setName(product.getName());
         existingProduct.setCategoryId(product.getCategoryId());
-        existingProduct.setImages(product.getImages());
         existingProduct.setDescription(product.getDescription());
         existingProduct.setImagesJson(product.getImagesJson());
         existingProduct.setQuantityStock(product.getQuantityStock());

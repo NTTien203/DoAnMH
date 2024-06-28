@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DoAnMhApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(DoAnMhApplication.class, args);
 	}
 
