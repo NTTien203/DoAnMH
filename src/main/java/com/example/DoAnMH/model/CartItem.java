@@ -16,6 +16,7 @@ import lombok.Setter;
 @Table(name = "cart_Item")
 public class CartItem {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -24,8 +25,8 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(name = "Cart_id")
     Cart cart;
-    public CartItem(Product product, int quantity) {
-        product=product;
-        quantity=quantity;
-    }
+//    public CartItem(Product product, int quantity) {
+//        product=product;
+//        quantity=quantity;
+//    }
 }

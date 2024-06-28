@@ -1,40 +1,137 @@
 package com.example.DoAnMH.controller.User;
 
-import com.example.DoAnMH.model.Cart;
-import com.example.DoAnMH.model.Category;
+import com.example.DoAnMH.model.*;
+import com.example.DoAnMH.repository.CartItemRepository;
+import com.example.DoAnMH.repository.CartRepository;
+import com.example.DoAnMH.repository.UserRepository;
 import com.example.DoAnMH.service.CartService;
+import com.example.DoAnMH.service.CategoryService;
+import com.example.DoAnMH.service.ProductService;
+import jakarta.persistence.GeneratedValue;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Controller
-@RequestMapping("User/cart")
+@RequestMapping("cart")
+@RequiredArgsConstructor
 public class CartController {
     @Autowired
-    private CartService cartService;
+    private final UserRepository userRepository;
+    @Autowired
+    private final CartRepository cartRepository;
 
-    //@GetMapping("User/cart/{id}")
-    @GetMapping("/show/{id}")
-    public String showCart(Model model, @PathVariable Long id) {
-        int sum=0;
+    @Autowired
+    private  final ProductService productService;
+    @Autowired
+    private final CartItemRepository cartItemRepository;
 
-        Cart cart=cartService.getCartById(id).orElseThrow(() -> new IllegalArgumentException("Invalid course id: " + id));
-        for(int i=0;i<cartService.getCartItem(cart.getCartId()).size();i++){
-            sum=sum+=cartService.getCartItem(cart.getCartId()).get(i).getProduct().getPrice();
+
+
+    @GetMapping
+    public String showCart( User user, Model model) {
+        int countCard=0;
+        long sum=0;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User currentUser = userRepository.findByUsername(currentPrincipalName);
+
+        if(currentUser!=null){
+            Cart cart = cartRepository.findByUserId(currentUser).orElseThrow(() -> new IllegalArgumentException("User not found: " ));
+            for (CartItem cartItem: cart.getCartItems()) {
+                sum+=cartItem.getQuantity()*cartItem.getProduct().getPrice();
+                countCard+=  cartItem.getQuantity();
+            }
+            if(cart!=null){
+                model.addAttribute("cartItems", cart.getCartItems());
+                model.addAttribute("user",user);
+                model.addAttribute("countCard",countCard);
+                model.addAttribute("sum",sum);
+                model.addAttribute("productCount",cart.getCartItems().size());
+                return "/User/AddtoCart";
+
+            }
         }
-        model.addAttribute("cartItems", cartService.getCartItem(cart.getCartId()));
-        model.addAttribute("cart",cart);
-        model.addAttribute("countCard",cartService.getCartItem(cart.getCartId()).size());
-        model.addAttribute("sum",sum);
-        return "/User/AddtoCart";
+        return "error";
     }
 
-    @PostMapping("/add")
-    public String addToCart(@RequestParam Long productId, @RequestParam int quantity,@RequestParam Long CartId) {
-        cartService.addToCart(productId,quantity,CartId);
-        return "redirect:/User/cart";
+@PostMapping("/add")
+@Transactional
+public String addToCart(@RequestParam("itemId") Long id,
+                        @RequestParam("quantity") int quantity) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String currentPrincipalName = authentication.getName();
+    User currentUser = userRepository.findByUsername(currentPrincipalName);
+    Product product= productService.getProductById(id).orElseThrow(() -> new IllegalArgumentException("User not find: " ));
+    if (currentUser != null) {
+        Cart cart = cartRepository.findByUserId(currentUser).orElse(null);
+        if (cart == null) {
+            List<CartItem> cartItems=new ArrayList<CartItem>() ;
+            cart = new Cart();
+            cart.setUserId(currentUser);
+            cart.setCartItems(cartItems);
+            cartRepository.save(cart);
+        }
+
+            CartItem existingItem = cart.getCartItems().stream()
+                    .filter(item -> item.getProduct().getId().equals(id))
+                    .findFirst()
+                    .orElse(null);
+            if (existingItem != null) {
+
+                existingItem.setQuantity(existingItem.getQuantity() + quantity);
+            } else {
+                CartItem newItem = new CartItem();
+                newItem.setProduct(product);
+                newItem.setQuantity(quantity);
+                newItem.setCart(cart);
+                cartItemRepository.save(newItem);
+                cart.getCartItems().add(newItem);
+            }
+
+            cartRepository.save(cart);
+
+            return "redirect:/cart";
+        }
+
+    return "error";
+}
+
+    @GetMapping("/delete/{id}")
+    public String deleteCart(@PathVariable Long id) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User currentUser = userRepository.findByUsername(currentPrincipalName);
+
+        Optional<Cart> optionalCart = cartRepository.findByUserId(currentUser);
+        if (optionalCart.isPresent()) {
+            Cart cart = optionalCart.get();
+            List<CartItem> cartItems = cart.getCartItems();
+
+            CartItem itemToRemove = cartItems.stream()
+                    .filter(item -> item.getProduct().getId().equals(id))
+                    .findFirst()
+                    .orElse(null);
+
+            if (itemToRemove != null) {
+                cartItems.remove(itemToRemove);
+                cartItemRepository.delete(itemToRemove);
+                cartRepository.save(cart);
+            }
+        }
+
+        return "redirect:/cart";
     }
-    
+
 
 }

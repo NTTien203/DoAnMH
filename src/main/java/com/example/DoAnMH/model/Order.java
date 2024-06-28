@@ -20,7 +20,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-   // private User user;
+    private User user;
    @NotNull(message = "Order date is mandatory")
    private Date orderDate;
     @NotNull(message = "Total amount is mandatory")

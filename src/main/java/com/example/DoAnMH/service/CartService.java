@@ -1,10 +1,8 @@
 package com.example.DoAnMH.service;
-import com.example.DoAnMH.model.Cart;
-import com.example.DoAnMH.model.CartItem;
-import com.example.DoAnMH.model.Category;
-import com.example.DoAnMH.model.Product;
+import com.example.DoAnMH.model.*;
 import com.example.DoAnMH.repository.CartRepository;
 import com.example.DoAnMH.repository.ProductRepository;
+import com.example.DoAnMH.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
@@ -21,22 +19,38 @@ public class CartService {
     private ProductRepository productRepository;
     @Autowired
     private CartRepository cartRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public List<CartItem> getCartItem(Long CardId){
-        return cartRepository.findById(CardId).get().getCartItems();
+    public List<CartItem> getCartItem(Long UserId){
+        List<CartItem> cartItems = cartRepository.findById(UserId).get().getCartItems();
+        return cartItems;
+    }
+    public Cart getCartByUser(User user) {
+        Optional<Cart> optionalCart = cartRepository.findByUserId(user);
+        return optionalCart.orElseGet(() -> createCartForUser(user));
     }
     public Optional<Cart> getCartById(Long id) {
         return cartRepository.findById(id);
     }
-    public void addToCart(Long productId, int quantity,Long CartId) {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("Product not found: " + productId));
-        CartItem cartItem= new CartItem(product,quantity);
-        Cart cart=cartRepository.findById(CartId).orElseThrow(()->new IllegalArgumentException("Product not found: " + CartId));
-        cart.getCartItems().add(cartItem);
+    private Cart createCartForUser(User user) {
+        Cart cart = new Cart();
+        cart.setUserId(user);
+        return cartRepository.save(cart);
     }
-    public void clearCart() {
-
-    }
+//    public void addToCart(Long productId, int quantity,Long UserId) {
+//        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("Product not found: " + productId));
+//        User user= userRepository.findById(UserId).orElseThrow(() -> new IllegalArgumentException("Product not found: " ));
+//        if(product!=null){
+//
+//        }
+//        CartItem cartItem= new CartItem(product,user);
+//        Cart cart=cartRepository.findById(CartId).orElseThrow(()->new IllegalArgumentException("Product not found: " + CartId));
+//        cart.getCartItems().add(cartItem);
+//    }
+//    public void clearCart() {
+//
+//    }
 
 
 }

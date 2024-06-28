@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       layout:decorate="~{Layout}"
-      xmlns:layout="http://www.w3.org/1999/xhtml">
+      xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -90,60 +90,18 @@
                 </div>
                 <div class="grid grid-cols-3 gap-4">
 
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
+                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow" th:each="product:${products}">
                         <img src="/images/AcerDS.jpg" alt="Gradient Graphic T-shirt" class="w-full mb-4">
-                        <h3 class="font-semibold">Gradient Graphic T-shirt</h3>
-                        <div class="text-lg font-bold mb-2">$145</div>
+                        <h3 class="font-semibold" th:text="${product.name}">Gradient Graphic T-shirt</h3>
+                        <div class="text-lg font-bold mb-2" th:text="'$'+${product.price}">$145</div>
                         <div class="text-sm text-zinc-600 dark:text-zinc-400">3.5/5</div>
+                        <form th:action="@{cart/add}" method="post">
+                            <input type="number" name="quantity" min="1" value="1" class="formcontrol d-inline-block" style="width: 70px;">
+                            <input type="hidden" th:value="${product.id}" name="itemId"/>
+                            <button type="submit" class="btn btn-warning btn-sm">Add to Cart</button>
+                        </form>
                     </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Polo with Tipping Details" class="w-full mb-4">
-                        <h3 class="font-semibold">Polo with Tipping Details</h3>
-                        <div class="text-lg font-bold mb-2">$180</div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">4.6/5</div>
-                    </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Black Striped T-shirt" class="w-full mb-4">
-                        <h3 class="font-semibold">Black Striped T-shirt</h3>
-                        <div class="text-lg font-bold mb-2">$120 <span class="line-through">$150</span> <span class="text-red-500">20% off</span></div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">5.0/5</div>
-                    </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Skinny Fit Jeans" class="w-full mb-4">
-                        <h3 class="font-semibold">Skinny Fit Jeans</h3>
-                        <div class="text-lg font-bold mb-2">$240 <span class="line-through">$260</span> <span class="text-red-500">20% off</span></div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">3.5/5</div>
-                    </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Checkered Shirt" class="w-full mb-4">
-                        <h3 class="font-semibold">Checkered Shirt</h3>
-                        <div class="text-lg font-bold mb-2">$180</div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">4.6/5</div>
-                    </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Sleeve Striped T-shirt" class="w-full mb-4">
-                        <h3 class="font-semibold">Sleeve Striped T-shirt</h3>
-                        <div class="text-lg font-bold mb-2">$130 <span class="line-through">$160</span> <span class="text-red-500">20% off</span></div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">4.0/5</div>
-                    </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Vertical Striped Shirt" class="w-full mb-4">
-                        <h3 class="font-semibold">Vertical Striped Shirt</h3>
-                        <div class="text-lg font-bold mb-2">$212 <span class="line-through">$232</span> <span class="text-red-500">20% off</span></div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">5.0/5</div>
-                    </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Courage Graphic T-shirt" class="w-full mb-4">
-                        <h3 class="font-semibold">Courage Graphic T-shirt</h3>
-                        <div class="text-lg font-bold mb-2">$145</div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">4.0/5</div>
-                    </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Loose Fit Bermuda Shorts" class="w-full mb-4">
-                        <h3 class="font-semibold">Loose Fit Bermuda Shorts</h3>
-                        <div class="text-lg font-bold mb-2">$80</div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">5.0/5</div>
-                    </div>
+
                 </div>
 
 

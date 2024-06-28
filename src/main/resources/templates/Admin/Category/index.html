@@ -33,10 +33,20 @@
                         <td th:text="${category.name}"></td>
                         <td th:text="${category.description}"></td>
                         <td>
+
                             <a th:href="@{Category/edit/{id}(id=${category.id})}" class="btn
 btn-success btn-sm">Edit</a>
                             <a th:href="@{Category/delete/{id}(id=${category.id})}"
                                class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="/cart/add" method="post">
+                                <input type="number" name="quantity" min="1" value="1" class="formcontrol d-inline-block" style="width: 70px;">
+                                <input type="hidden" th:value="${Product.id}" name="id"/>
+                                <button type="submit" class="btn btn-warning btn-sm">Add to
+                                    Cart</button>
+                            </form>
                         </td>
                     </tbody>
                 </table>

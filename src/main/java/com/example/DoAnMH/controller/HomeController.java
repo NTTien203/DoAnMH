@@ -1,6 +1,8 @@
 package com.example.DoAnMH.controller;
 
+import com.example.DoAnMH.model.Product;
 import com.example.DoAnMH.model.User;
+import com.example.DoAnMH.service.ProductService;
 import com.example.DoAnMH.service.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -13,11 +15,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
     @Autowired
     private  final UserService userService;
+    @Autowired
+    private final ProductService productService;
     @GetMapping("/")
     public String index() {
         return "User/HomePage"; // This should match the name of your HTML file without the .html extension
@@ -30,8 +36,14 @@ public class HomeController {
     }
 
     @GetMapping("/Product")
-    public String Productpage() {
-        return "User/ProductPage"; // This should match the name of your HTML file without the .html extension
+    public String Productpage(Model model) {
+
+        List<Product> products = productService.getAllProduct();
+        model.addAttribute("product",new Product());
+        model.addAttribute("products", products);
+
+
+        return "user/ProductPage";// This should match the name of your HTML file without the .html extension
     }
 
     @GetMapping("/login")
