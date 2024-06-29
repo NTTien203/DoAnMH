@@ -22,49 +22,22 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
-                        <th>Mô tả</th>
-                        <th>Id danh mục cha</th>
-                        <td></td>
+                        <th>Tổng giá</th>
+                        <th>Ngày</th>
+                        <th>Địa chỉ</th>
+                        <th>Chi tiết</th>
+                        
                     </tr>
                     </thead>
+                    <tbody th:each="order :${orders}">
+                    <td th:text="${order.id}"></td>
+                    <td th:text="${order.username}"></td>
+                    <td th:text="${order.totalAmount}"></td>
+                    <td th:text="${order.orderDate}"></td>
+                    <td th:text="${order.address}"></td>
+                    <td th:text="${order.description}"></td>
+                    </tbody>
 
-<!--                    <tbody>-->
-<!--                    @foreach (var category in Model)-->
-<!--                    {-->
-<!--                    <tr>-->
-<!--                        <td>@category.Id</td>-->
-<!--                        <td>@category.Name</td>-->
-<!--                        <td>-->
-<!--                            @if (category.Description != null)-->
-<!--                            {-->
-
-
-<!--                            <span data-toggle="tooltip" title="@Html.Raw(category.Description)">-->
-<!--                                            @Html.Raw(category.Description.Substring(0, Math.Min(10, category.Description.Length)))-->
-<!--                                            @if (category.Description.Length > 10)-->
-<!--                                            {-->
-<!--                                                <span class="text-primary"><a asp-area="Admin" asp-controller="Product" asp-action="Display" asp-route-id="@category.Id" class="mr-2">...</a></span>-->
-<!--                                            }-->
-<!--                                        </span>-->
-<!--                            }-->
-<!--                            else-->
-<!--                            {-->
-<!--                            @("Không có");-->
-<!--                            }-->
-<!--                        </td>-->
-
-<!--                        <td>@category.ParentId</td>-->
-<!--                        @*  <td>@category.CreatedAt</td> *@-->
-<!--                        <td class="d-inline-block">-->
-<!--                            <a asp-area="Admin" asp-controller="Category" asp-action="Update" asp-route-id="@category.Id" class="mr-2"><i class="fas fa-solid fa-pen text-warning"></i></a>-->
-<!--                            @if (ViewBag.IsAdmin)-->
-<!--                            {-->
-<!--                            <a asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id"><i class="fas fa-solid fa-trash text-danger"></i></a>-->
-<!--                            }-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                    }-->
-<!--                    </tbody>-->
                 </table>
             </div>
         </div>
