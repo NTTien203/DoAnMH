@@ -30,6 +30,7 @@ public class HomeController {
     }
 
 
+
     @GetMapping("/Detail")
     public String Detailpage() {
         return "User/DetailPage"; // This should match the name of your HTML file without the .html extension

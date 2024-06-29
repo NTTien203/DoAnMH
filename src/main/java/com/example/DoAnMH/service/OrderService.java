@@ -60,12 +60,12 @@ public class OrderService {
                 order.getOrderDetails().add(detail);
                 CartItem cartItem=cart.getCartItems().get(i);
                 orderDetailRepository.save(detail);
-                cartItemRepository.delete(cartItem);
+
             }
 
             order.setTotalAmount(sum);
             orderRepository.save(order);
-            cartRepository.save(cart);
+
         }
 
     }

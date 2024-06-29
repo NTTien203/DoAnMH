@@ -23,8 +23,10 @@ public class OrderController {
     public String submitOrder(String address,String description) {
 
         orderService.createOrder(address,description);
-        return "/User/order-confirmation";
+        return "redirect:/Vnpay";
     }
+
+
 
 }
 
