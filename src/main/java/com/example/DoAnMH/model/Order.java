@@ -20,12 +20,16 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private User user;
+
+    private String username;
    @NotNull(message = "Order date is mandatory")
    private Date orderDate;
     @NotNull(message = "Total amount is mandatory")
     private double totalAmount;
+    @NotNull
+    private String address;
 
+    private String description;
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails;
 }

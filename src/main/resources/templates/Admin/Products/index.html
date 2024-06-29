@@ -2,7 +2,8 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{LayoutAdmin}">
+      layout:decorate="~{LayoutAdmin}" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:custom="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Quản lý sản phẩm</title>
@@ -21,38 +22,41 @@
                     <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Name</th>
+                        <th>Tên Máy Tính</th>
                         <th>Giá</th>
+                        <th>Số lượng tồn kho</th>
+                        <th>Mã Giảm Giá</th>
                         <th>Hãng</th>
+                        <th>Mô tả</th>
+                        <th>Cập nhật</th>
+                        <th>Xóa</th>
                     </tr>
                     </thead>
-
                     <tbody th:each="product :${products}">
                         <td th:text="${product.id}"></td>
                         <td th:text="${product.name}"></td>
                         <td th:text="${product.price}"></td>
+                        <td th:text="${product.quantityStock}"></td>
+                        <td th:text="${product.discountId.discount}">
                         <td th:text="${product.categoryId.name}"></td>
+                        <td th:text="${product.description}"></td>
                         <td>
-                            <a th:href="@{Products/edit/{id}(id=${product.id})}" class="btn
-btn-success btn-sm">Edit</a>
-                            <a th:href="@{Products/delete/{id}(id=${product.id})}"
-                               class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+                        <span sec:authorize="hasAnyAuthority('EMPLOYEE', 'ADMIN')">
+                            <a th:href="@{/admin/Products/edit/{id}(id=${product.id})}"
+                               class="btn btn-success btn-sm" >Cập nhật</a>
+                        </span>
                         </td>
                         <td>
-                            <form th:action="@{User/cart/add}" method="post">
-                                <input type="number" name="quantity" min="1" value="1" class="formcontrol d-inline-block" style="width: 70px;">
-                                <input type="hidden" th:value="${product.id}" name="productId"/>
-                                <button type="submit" class="btn btn-warning btn-sm">Add to
-                                    Cart</button>
-                            </form>
+                        <span sec:authorize="hasAnyAuthority('ADMIN')">
+                            <a th:href="@{/admin/Products/delete/{id}(id=${product.id})}"
+                               class="btn btn-danger btn-sm">Xóa</a>
+                        </span>
                         </td>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-</div>
-
 </div>
 
 </body>

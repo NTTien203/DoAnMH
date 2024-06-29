@@ -96,8 +96,11 @@
                         <div class="text-lg font-bold mb-2" th:text="'$'+${product.price}">$145</div>
                         <div class="text-sm text-zinc-600 dark:text-zinc-400">3.5/5</div>
                         <form th:action="@{cart/add}" method="post">
-                            <input type="number" name="quantity" min="1" value="1" class="formcontrol d-inline-block" style="width: 70px;">
-                            <input type="hidden" th:value="${product.id}" name="itemId"/>
+
+                            <input type="number" name="quantity" min="1" th:max="${product.quantityStock}" value="1" class="form-control d-inline-block" style="width: 70px;">
+
+                            <input type="hidden" th:value="${product.id}" name="itemId">
+
                             <button type="submit" class="btn btn-warning btn-sm">Add to Cart</button>
                         </form>
                     </div>

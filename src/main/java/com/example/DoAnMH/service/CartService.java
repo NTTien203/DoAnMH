@@ -38,19 +38,8 @@ public class CartService {
         cart.setUserId(user);
         return cartRepository.save(cart);
     }
-//    public void addToCart(Long productId, int quantity,Long UserId) {
-//        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("Product not found: " + productId));
-//        User user= userRepository.findById(UserId).orElseThrow(() -> new IllegalArgumentException("Product not found: " ));
-//        if(product!=null){
-//
-//        }
-//        CartItem cartItem= new CartItem(product,user);
-//        Cart cart=cartRepository.findById(CartId).orElseThrow(()->new IllegalArgumentException("Product not found: " + CartId));
-//        cart.getCartItems().add(cartItem);
-//    }
-//    public void clearCart() {
-//
-//    }
+
+
 
 
 }
