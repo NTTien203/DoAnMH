@@ -4,6 +4,9 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import com.example.DoAnMH.model.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.example.DoAnMH.repository.ProductRepository;
 
@@ -52,5 +55,18 @@ public class ProductService {
         }
         productRepository.deleteById(id);
     }
+
+    public Page<Product> findPaginated(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findAll(pageable);
+    }
+//    public Page<Product> getProductsByCategoriesAndPrice(List<String> categories, Double price, int page, int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        if (categories != null && price != null) {
+//            return productRepository.findByCategoryInAndPriceOrderByPriceDesc(categories, price, pageable);
+//        } else {
+//            return productRepository.findAll(pageable);
+//        }
+//    }
 
 }

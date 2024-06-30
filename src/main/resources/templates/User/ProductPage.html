@@ -7,6 +7,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!--    <script src="https://cdn.tailwindcss.com"></script>-->
     <link rel="stylesheet" th:href="@{output.css}">
+    <style>
+        .pagination {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination form {
+            margin: 0 5px; /* Khoảng cách giữa các nút */
+        }
+        .pagination button {
+            display: inline-block;
+            padding: 8px 16px;
+            border: 1px solid #4CAF50; /* Border màu xanh lá cây */
+            border-radius: 4px;
+            background-color: #4CAF50; /* Màu nền xanh lá cây */
+            color: white; /* Màu chữ trắng */
+            cursor: pointer;
+        }
+        .pagination button.active {
+            background-color: #388E3C; /* Màu nền xanh lá cây đậm hơn cho trang hiện tại */
+            border-color: #388E3C; /* Border màu xanh lá cây đậm hơn */
+        }
+        .pagination button:hover {
+            background-color: #66BB6A; /* Màu nền xanh lá cây nhạt hơn khi hover */
+        }
+    </style>
 </head>
 <body>
 <div class="min-h-screen bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100">
@@ -15,158 +42,95 @@
 
         <div class="container mx-auto px-4 py-4">
             <nav class="text-sm">
-                <a href="#" class="text-zinc-600 dark:text-zinc-400 hover:underline">Home</a> >
-                <a href="#" class="text-zinc-600 dark:text-zinc-400 hover:underline">Casual</a>
+                <a th:href="@{/}" class="text-zinc-600 dark:text-zinc-400 hover:underline">Trang chủ</a> >
+                <a  class="text-zinc-600 dark:text-zinc-400 hover:underline">Danh Sách</a>
             </nav>
         </div>
-
+        <form th:action="@{/Product}" method="post">
         <div class="container mx-auto px-4 py-4 flex">
-
-            <aside class="w-1/4 bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                <h2 class="text-lg font-bold mb-4">Filters</h2>
-                <div class="mb-4">
-                    <h3 class="font-semibold mb-2">Price</h3>
-                    <input type="range" min="0" max="200" class="w-full">
-                    <div class="flex justify-between text-sm">
-                        <span>$0</span>
-                        <span>$200</span>
+                <aside class="w-1/4 bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
+                    <h2 class="text-lg font-bold mb-4">Filters</h2>
+                    <div class="mb-4">
+                        <h3 class="font-semibold mb-2">Price</h3>
+                        <input type="range" name="price" id="price" min="0" th:max="${maxPrice}" value="0" oninput="updateValue(this.value)" class="w-full" >
+                        <div class="flex justify-between text-sm">
+                            <span class="value" id="Value">0</span>
+                            <span th:text="${maxPrice}"></span>
+                        </div>
+                        <script>
+                            function updateValue(value) {
+                                document.getElementById('Value').textContent = value;
+                            }
+                        </script>
                     </div>
-                </div>
-                <div class="mb-4">
-                    <h3 class="font-semibold mb-2">Colors</h3>
-                    <div class="flex space-x-2">
-                        <span class="w-6 h-6 bg-red-500 rounded-full"></span>
-                        <span class="w-6 h-6 bg-blue-500 rounded-full"></span>
-                        <span class="w-6 h-6 bg-green-500 rounded-full"></span>
-                        <span class="w-6 h-6 bg-yellow-500 rounded-full"></span>
-                        <span class="w-6 h-6 bg-purple-500 rounded-full"></span>
-                        <span class="w-6 h-6 bg-pink-500 rounded-full"></span>
+                    <div class="mb-4">
+                        <h3 class="font-semibold mb-2">Loại:</h3>
+                        <select style="color:black;" class="flex flex-col space-y-2" name="catename">
+                            <label class="flex items-center">
+                                <option style="color:black;"  th:each="cate:${categories}" th:value="${cate.name}"  class="mr-2" th:text="${cate.name}"></option>
+                            </label>
+                        </select>
                     </div>
-                </div>
-                <div class="mb-4">
-                    <h3 class="font-semibold mb-2">Size</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <button class="border px-2 py-1 rounded-lg">XX-Small</button>
-                        <button class="border px-2 py-1 rounded-lg">X-Small</button>
-                        <button class="border px-2 py-1 rounded-lg">Small</button>
-                        <button class="border px-2 py-1 rounded-lg">Medium</button>
-                        <button class="border px-2 py-1 rounded-lg bg-zinc-200 dark:bg-zinc-700">Large</button>
-                        <button class="border px-2 py-1 rounded-lg">X-Large</button>
-                        <button class="border px-2 py-1 rounded-lg">XX-Large</button>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <h3 class="font-semibold mb-2">Dress Style</h3>
-                    <div class="flex flex-col space-y-2">
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2">
-                            Casual
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2">
-                            Formal
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2">
-                            Party
-                        </label>
-                    </div>
-                </div>
-                <button class="bg-black text-white px-4 py-2 rounded-lg w-full">Apply Filter</button>
-            </aside>
-
+                    <button type="submit" class="bg-black text-white px-4 py-2 rounded-lg w-full">Apply Filter</button>
+                </aside>
+<!--            </div>-->
             <main class="w-3/4 ml-4">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-2xl font-bold">Casual</h2>
-                    <div class="text-sm">Showing 1-10 of 100 Products</div>
+                    <h2 class="text-2xl font-bold">Danh Sách Sản Phẩm</h2>
+<!--                    <div class="text-sm">Showing 1-10 of 100 Products</div>-->
                     <div class="text-sm">
                         Sort by:
-                        <select class="border rounded-lg px-2 py-1">
-                            <option>Most Popular</option>
-                            <option>Newest</option>
-                            <option>Price: Low to High</option>
-                            <option>Price: High to Low</option>
+                        <select name="sort" id="sort" style="color:black;" class="border rounded-lg px-2 py-1">
+                            <option style="color:black;" value="Most Popular">Phổ biến</option>
+                            <option style="color:black;" value="Low to High">Giá: Từ thấp đến cao</option>
+                            <option style="color:black;" value="High to Low">Giá: Từ cao đến thấp</option>
                         </select>
                     </div>
                 </div>
                 <div class="grid grid-cols-3 gap-4">
-
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="/images/AcerDS.jpg" alt="Gradient Graphic T-shirt" class="w-full mb-4">
-                        <h3 class="font-semibold">Gradient Graphic T-shirt</h3>
-                        <div class="text-lg font-bold mb-2">$145</div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">3.5/5</div>
-                    </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Polo with Tipping Details" class="w-full mb-4">
-                        <h3 class="font-semibold">Polo with Tipping Details</h3>
-                        <div class="text-lg font-bold mb-2">$180</div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">4.6/5</div>
-                    </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Black Striped T-shirt" class="w-full mb-4">
-                        <h3 class="font-semibold">Black Striped T-shirt</h3>
-                        <div class="text-lg font-bold mb-2">$120 <span class="line-through">$150</span> <span class="text-red-500">20% off</span></div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">5.0/5</div>
-                    </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Skinny Fit Jeans" class="w-full mb-4">
-                        <h3 class="font-semibold">Skinny Fit Jeans</h3>
-                        <div class="text-lg font-bold mb-2">$240 <span class="line-through">$260</span> <span class="text-red-500">20% off</span></div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">3.5/5</div>
-                    </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Checkered Shirt" class="w-full mb-4">
-                        <h3 class="font-semibold">Checkered Shirt</h3>
-                        <div class="text-lg font-bold mb-2">$180</div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">4.6/5</div>
-                    </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Sleeve Striped T-shirt" class="w-full mb-4">
-                        <h3 class="font-semibold">Sleeve Striped T-shirt</h3>
-                        <div class="text-lg font-bold mb-2">$130 <span class="line-through">$160</span> <span class="text-red-500">20% off</span></div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">4.0/5</div>
-                    </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Vertical Striped Shirt" class="w-full mb-4">
-                        <h3 class="font-semibold">Vertical Striped Shirt</h3>
-                        <div class="text-lg font-bold mb-2">$212 <span class="line-through">$232</span> <span class="text-red-500">20% off</span></div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">5.0/5</div>
-                    </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Courage Graphic T-shirt" class="w-full mb-4">
-                        <h3 class="font-semibold">Courage Graphic T-shirt</h3>
-                        <div class="text-lg font-bold mb-2">$145</div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">4.0/5</div>
-                    </div>
-                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                        <img src="images/AcerDS.jpg" alt="Loose Fit Bermuda Shorts" class="w-full mb-4">
-                        <h3 class="font-semibold">Loose Fit Bermuda Shorts</h3>
-                        <div class="text-lg font-bold mb-2">$80</div>
-                        <div class="text-sm text-zinc-600 dark:text-zinc-400">5.0/5</div>
+                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow" th:each="product:${productsPage.content}">
+                        <img th:src="@{${product.images[0]}}"  alt="Gradient Graphic T-shirt" class="w-full mb-4">
+                        <a th:href="@{/Detail/{id}(id=${product.id})}" >
+                            <h3 class="font-bold" th:text="${product.name}"></h3>
+                        </a>
+                        <div class="flex items-center mb-2">
+                            <span class="text-yellow-500">★★★★☆</span>
+                            <span class="ml-2 text-zinc-600 dark:text-zinc-400">4.5/5</span>
+                        </div>
+                        <span th:if="${product.priceDiscount != product.price}">
+                            <p class="line-through text-zinc-500" th:text="${product.price} + ' VNĐ'"></p>
+                                 <p class="text-lg font-bold" th:text="${product.priceDiscount}+' VNĐ'"></p>
+                                 <p class="text-red-500" th:text="'-'+${product.discountId.discount}+'%'"></p>
+                        </span>
+                        <span th:unless="${product.priceDiscount != product.price}">
+                                <p class="text-lg font-bold" th:text="${product.price}+' VNĐ'"></p>
+                        </span>
+                        <form th:action="@{/cart/add}" method="post">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-center">
+                                    <input type="number" step="1" value="1" name="quantity" min="1" th:max="${product.quantityStock}" class="form-control d-inline-block"  style="width: 70px;color: black; background-color: white;" >
+                                    <input type="hidden" th:value="${product.id}" name="itemId">
+                                </div>
+                                <button type="submit" class="bg-black text-white rounded-lg px-6 py-2">Thêm vào giỏ hàng</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-
-
-                <div class="flex justify-between items-center mt-4">
-                    <button class="px-4 py-2 border rounded-lg">Previous</button>
-                    <div class="space-x-2">
-                        <button class="px-4 py-2 border rounded-lg">1</button>
-                        <button class="px-4 py-2 border rounded-lg">2</button>
-                        <button class="px-4 py-2 border rounded-lg">3</button>
-                        <button class="px-4 py-2 border rounded-lg">4</button>
-                        <button class="px-4 py-2 border rounded-lg">5</button>
-                        <button class="px-4 py-2 border rounded-lg">6</button>
-                        <button class="px-4 py-2 border rounded-lg">7</button>
-                        <button class="px-4 py-2 border rounded-lg">8</button>
-                        <button class="px-4 py-2 border rounded-lg">9</button>
-                        <button class="px-4 py-2 border rounded-lg">10</button>
+                <div class="pagination">
+                    <div th:each="i : ${#numbers.sequence(0, productsPage.totalPages - 1)}">
+                        <form th:action="@{/Product}" method="post">
+                            <input type="hidden" name="price" th:value="${price1}">
+                            <input type="hidden" name="sort" th:value="${sort1}">
+                            <input type="hidden" name="catename" th:value="${cate1}">
+                            <input type="hidden" name="size" th:value="${productsPage.size}">
+                            <input type="hidden" name="page" th:value="${i}">
+                            <button type="submit" th:classappend="${productsPage.number == i ? ' active' : ''}" th:text="${i + 1}" class="px-4 py-2 border rounded-lg"></button>
+                        </form>
                     </div>
-                    <button class="px-4 py-2 border rounded-lg">Next</button>
                 </div>
             </main>
         </div>
-
+    </form>
     </div>
 
 </div>

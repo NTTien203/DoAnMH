@@ -12,23 +12,25 @@
 
     <header class="border-b border-zinc-200 dark:border-zinc-700">
         <div class="container mx-auto flex justify-between items-center py-4 px-6">
-            <div class="text-2xl font-bold">SHOP.CO</div>
+            <a th:href="@{/}" class="text-2xl font-bold">SHOP.CO</a>
             <nav class="space-x-4">
-                <a href="#" class="hover:text-zinc-700 dark:hover:text-zinc-300">Shop</a>
-                <a href="#" class="hover:text-zinc-700 dark:hover:text-zinc-300">On Sale</a>
-                <a href="#" class="hover:text-zinc-700 dark:hover:text-zinc-300">New Arrivals</a>
-                <a href="#" class="hover:text-zinc-700 dark:hover:text-zinc-300">Brands</a>
+                <a th:href="@{/}" class="hover:text-zinc-700 dark:hover:text-zinc-300">Trang chủ</a>
+                <a th:href="@{/Product}" class="hover:text-zinc-700 dark:hover:text-zinc-300">Sản phẩm</a>
+                <a th:href="@{/cart}" class="hover:text-zinc-700 dark:hover:text-zinc-300">Giỏ Hàng</a>
+<!--                <a href="#" class="hover:text-zinc-700 dark:hover:text-zinc-300">Brands</a>-->
             </nav>
-            <div class="flex items-center space-x-4">
-                <input type="text" placeholder="Search for products..." class="border rounded-lg px-3 py-1 dark:bg-zinc-800 dark:border-zinc-700">
-                <button class="border rounded-lg px-3 py-1 dark:bg-zinc-800 dark:border-zinc-700" style="background-color: Black; color: White;">Search</button>
-                <div sec:authorize="isAuthenticated()">
-                    <span>Xin chào, <span th:text="${#authentication.name}"></span>!</span>
+            <form th:action="@{/Product}" method="post">
+                <div class="flex items-center space-x-4">
+                    <input type="text" name="search" placeholder="Tìm kiếm sản phẩm theo tên" class="border rounded-lg px-3 py-1 dark:bg-zinc-800 dark:border-zinc-700">
+                    <button class="border rounded-lg px-3 py-1 dark:bg-zinc-800 dark:border-zinc-700" style="background-color: Black; color: White;">Tìm kiếm</button>
+                    <div sec:authorize="isAuthenticated()">
+                        <span>Xin chào, <span th:text="${#authentication.name}"></span>!</span>
+                    </div>
+                    <div sec:authorize="!isAuthenticated()">
+                        <a th:href=@{/login} class="hover:text-zinc-700 dark:hover:text-zinc-300">Đăng nhập</a>
+                    </div>
                 </div>
-                <div sec:authorize="!isAuthenticated()">
-                    <a th:href=@{/login} class="hover:text-zinc-700 dark:hover:text-zinc-300">Đăng nhập</a>
-                </div>
-            </div>
+            </form>
         </div>
     </header>
 
@@ -42,8 +44,8 @@
     <footer class="bg-zinc-100 dark:bg-zinc-800 py-16">
         <div class="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
-                <h3 class="font-bold mb-4">SHOP.CO</h3>
-                <p>We have clothes that suit your style and which you're proud to wear. From women to men.</p>
+                <a th:href="@{/}" class="font-bold mb-4">SHOP.CO</a>
+<!--                <p>We have clothes that suit your style and which you're proud to wear. From women to men.</p>-->
             </div>
             <div>
                 <h3 class="font-bold mb-4">Company</h3>

@@ -1,24 +1,33 @@
 package com.example.DoAnMH.controller.user;
 
+import com.example.DoAnMH.model.Category;
 import com.example.DoAnMH.model.Product;
+import com.example.DoAnMH.service.CartService;
+import com.example.DoAnMH.service.CategoryService;
 import com.example.DoAnMH.service.ProductService;
+import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.awt.geom.QuadCurve2D;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
 public class HomePageController {
     @Autowired
     private  final ProductService productService;
+    @Autowired
+    private final CategoryService categoryService;
     @GetMapping("/")
     public String index(Model model) {
         List<Product>Sales = productService.getProductsSortedByDiscount();
@@ -77,8 +86,109 @@ public class HomePageController {
         model.addAttribute("list",list);
         return "User/DetailPage";
     }
-        @GetMapping("/Product")
-    public String Productpage() {
-        return "User/ProductPage"; // This should match the name of your HTML file without the .html extension
+    @GetMapping("/Product")
+    public String Productpage(Model model) {
+        List<Product> list = productService.getAllProduct();
+        List<Category> categories = categoryService.getAllCategory();
+        double maxPrice = 0;
+        for (Product p : list){
+            p.setImages(p.convertJsonToImages());
+            double disc = p.getDiscountId().getDiscount();
+            double sale = p.getPrice() * ((double) 1 -disc/(double) 100);
+            maxPrice = Math.max(maxPrice,sale);
+            p.setPriceDiscount(sale);
+        }
+        while (!list.isEmpty()&&list.size()>6){
+            list.removeLast();
+        }
+        Page<Product>Page = new PageImpl<>(list.subList(0,Math.min(list.size(),6)),PageRequest.of(0, 6),list.size());
+        model.addAttribute("categories",categories);
+        model.addAttribute("maxPrice",maxPrice);
+        model.addAttribute("price1",0.0);
+        model.addAttribute("cate1",null);
+        model.addAttribute("sort1","Most Popular");
+        model.addAttribute("productsPage", Page);
+
+        return "user/ProductPage";// This should match the name of your HTML file without the .html extension
+    }
+    @PostMapping("/Product")
+    public String ProductPage(Model model, @RequestParam(value = "price",required = false) Double price,@RequestParam(name = "catename",required = false) String cate,@RequestParam(name = "sort",required = false) String sort
+    ,@RequestParam(defaultValue = "0") int page,@RequestParam(name = "search",required = false) String search,@RequestParam(name="view",required = false) String view
+    ){
+//        System.out.println(cate);
+        List<Product>list = productService.getAllProduct();
+        if(view!=null){
+            if(view.equals("1")){
+                list = productService.getProductsSortedByDiscount();
+                for (int i = list.size() - 1; i >= 0; i--) {
+                    if (list.get(i).getDiscountId().getDiscount()==0.0) {
+                        list.remove(i);
+                    }
+                }
+            }else if(view.equals("2")){
+                list = productService.getProductsByCategoryName("Macbook");
+            }
+        }
+        List<Category> categories = categoryService.getAllCategory();
+        double maxPrice = 0;
+        for (Product p : list){
+            p.setImages(p.convertJsonToImages());
+            double disc = p.getDiscountId().getDiscount();
+            double sale = p.getPrice() * ((double) 1 -disc/(double) 100);
+            maxPrice = Math.max(maxPrice,sale);
+            p.setPriceDiscount(sale);
+        }
+        if(search!=null){
+            Iterator<Product> iterator = list.iterator();
+            while (iterator.hasNext()){
+                Product product = iterator.next();
+                if(!product.getName().toLowerCase().contains(search.toLowerCase())){
+                    iterator.remove();
+                }
+            }
+        }
+        if(cate!=null){
+            Iterator<Product> iterator = list.iterator();
+            while (iterator.hasNext()) {
+                Product product = iterator.next();
+                if (!cate.toLowerCase().equals(product.getCategoryId().getName().toLowerCase())) {
+                    iterator.remove();
+                }
+            }
+        }
+        if(price!=null && price.intValue() > 0){
+            for(int i = list.size()-1;i>=0;i--){
+                double sale = list.get(i).getPriceDiscount();
+                if((int)sale < price.intValue()){
+                    list.remove(i);
+                }
+            }
+        }
+//        for (Product p : list){
+//            System.out.println(p.getPriceDiscount());
+//        }
+        if(sort!=null&&sort.equals("Low to High")) {
+                 list.stream()
+                    .sorted(new Comparator<Product>() {
+                        @Override
+                        public int compare(Product p1, Product p2) {
+                            return Double.compare(p2.priceDiscount, p1.priceDiscount);
+                        }
+                    });
+        }
+        if(sort!=null&&sort.equals("High to Low")){
+            Collections.reverse(list);
+        }
+        Page<Product>Products = Page.empty();
+        if(!list.isEmpty()){
+            Products = new PageImpl<>(list.subList(page*6,Math.min(page*6+6,list.size())),PageRequest.of(page,6),list.size());
+        }
+        model.addAttribute("categories",categories);
+        model.addAttribute("price1",price);
+        model.addAttribute("cate1",cate);
+        model.addAttribute("sort1",sort);
+        model.addAttribute("maxPrice",maxPrice);
+        model.addAttribute("productsPage",Products);
+        return "user/ProductPage";
     }
 }

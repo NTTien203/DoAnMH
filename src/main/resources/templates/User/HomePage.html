@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--    <script src="https://cdn.tailwindcss.com"></script>-->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" th:href="@{output.css}">
 </head>
 
@@ -16,7 +16,7 @@
         <div style="background-image: url('/images/bgim.jpg');  background-position: center; ">
             <section class="container mx-auto py-16 px-6 text-center" >
                 <h1 class="text-4xl font-bold mb-4">Find Clothes That Matches Your Style</h1>
-                <p class="mb-8">Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.</p>
+                <p class="mb-8">Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and catenamer to your sense of style.</p>
                 <button class="bg-black text-white px-6 py-2 rounded-lg">Shop Now</button>
                 <div class="flex justify-center space-x-8 mt-8">
                     <div>
@@ -36,25 +36,43 @@
         </div>
         <section class="bg-zinc-100 dark:bg-zinc-800 py-8">
             <div class="container mx-auto flex justify-around">
-                <a href="link-to-versace" class="h-12">
-                    <img src="/images/logo-acer-149x40.png" alt="Versace" class="h-full">
-                </a>
-                <a href="link-to-zara" class="h-12">
-                    <img src="/images/logo-asus-149x40.png" alt="Zara" class="h-full">
-                </a>
-                <a href="link-to-gucci" class="h-12">
-                    <img src="/images/logo-dell-149x40.png" alt="Gucci" class="h-full">
-                </a>
-                <a href="link-to-prada" class="h-12">
-                    <img src="/images/logo-hp-149x40-1.png" alt="Prada" class="h-full">
-                </a>
-                <a href="link-to-calvin-klein" class="h-12">
-                    <img src="/images/logo-lenovo-149x40.png" alt="Calvin Klein" class="h-full">
-                </a>
-                <a href="link-to-calvin-klein" class="h-12">
-                    <img src="/images/logo-macbook-149x40.png" alt="Calvin Klein" class="h-full">
-                </a>
+                <form th:action="@{/Product}" method="post">
+                    <input type="hidden" name="catename" th:value="acer">
+                    <button type="submit"  class="h-12">
+                        <img src="/images/logo-acer-149x40.png" alt="Versace" class="h-full">
+                    </button>
+                </form>
+                <form th:action="@{/Product}" method="post">
+                    <input type="hidden" name="catenamename" th:value="asus">
+                    <button type="submit"  class="h-12">
+                        <img src="/images/logo-asus-149x40.png" alt="Zara" class="h-full">
 
+                    </button>
+                </form>
+                <form th:action="@{/Product}" method="post">
+                    <input type="hidden" name="catenamename" th:value="dell">
+                    <button type="submit"  class="h-12">
+                        <img src="/images/logo-dell-149x40.png" alt="Gucci" class="h-full">
+                    </button>
+                </form>
+                <form th:action="@{/Product}" method="post">
+                    <input type="hidden" name="catenamename" th:value="lenovo">
+                    <button type="submit"  class="h-12">
+                        <img src="/images/logo-lenovo-149x40.png" alt="Calvin Klein" class="h-full">
+                    </button>
+                </form>
+                <form th:action="@{/Product}" method="post">
+                    <input type="hidden" name="catename" th:value="hp">
+                    <button type="submit"  class="h-12">
+                        <img src="/images/logo-hp-149x40-1.png" alt="Prada" class="h-full">
+                    </button>
+                </form>
+                <form th:action="@{/Product}" method="post">
+                    <input type="hidden" name="catename" th:value="macbook">
+                    <button type="submit"  class="h-12">
+                        <img src="/images/logo-macbook-149x40.png" alt="Calvin Klein" class="h-full">
+                    </button>
+                </form>
             </div>
         </section>
 
@@ -82,9 +100,12 @@
                 </div>
 
             </div>
-            <div class="text-center mt-8">
-                <button class="bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 px-6 py-2 rounded-lg">View All</button>
-            </div>
+            <form th:action="@{/Product}" method="post">
+                <input  type="hidden" name="view" value="1">
+                <div class="text-center mt-8">
+                    <button type="submit" class="bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 px-6 py-2 rounded-lg">Xem tất cả danh sách</button>
+                </div>
+            </form>
         </section>
 
         <section class="container mx-auto py-16 px-6" style="background-color: #FADBD8;">
@@ -113,9 +134,12 @@
                     </div>
             </div>
             </div>
-            <div class="text-center mt-8">
-                <button class="bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 px-6 py-2 rounded-lg">View All</button>
-            </div>
+            <form th:action="@{/Product}" method="post">
+                <input  type="hidden" name="view">
+                <div class="text-center mt-8">
+                    <button type="submit" class="bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 px-6 py-2 rounded-lg">Xem tất cả danh sách</button>
+                </div>
+            </form>
         </section>
 
 
@@ -145,9 +169,12 @@
                 </div>
 
             </div>
-            <div class="text-center mt-8">
-                <button class="bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 px-6 py-2 rounded-lg">View All</button>
-            </div>
+            <form th:action="@{/Product}" method="post">
+                <input  type="hidden" name="view" value="2">
+                <div class="text-center mt-8">
+                    <button type="submit" class="bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 px-6 py-2 rounded-lg">Xem tất cả danh sách</button>
+                </div>
+            </form>
         </section>
 
     </div>

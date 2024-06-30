@@ -118,15 +118,17 @@
                 <div class="flex items-center space-x-4 mb-4" th:unless="${product.priceDiscount > 0}">
                     <span class="text-2xl font-bold" th:text="${product.price} +' VNĐ'"></span>
                 </div>
+                <h1 class="text-2xl font-bold" th:text="'Số Lượng Tồn: '+${product.quantityStock}"></h1>
                 <p class="mb-4" th:text="${product.description}"></p>
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center border rounded-lg">
-                        <button class="px-4 py-2">-</button>
-                        <input type="text" value="1" class="w-12 text-center border-l border-r">
-                        <button class="px-4 py-2">+</button>
+                <form th:action="@{/cart/add}" method="post">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center">
+                            <input type="number" step="1" value="1" name="quantity" min="1" th:max="${product.quantityStock}" class="form-control d-inline-block"  style="width: 70px;color: black; background-color: white;" >
+                            <input type="hidden" th:value="${product.id}" name="itemId">
+                        </div>
+                        <button type="submit" class="bg-black text-white rounded-lg px-6 py-2">Thêm vào giỏ hàng</button>
                     </div>
-                    <button class="bg-black text-white rounded-lg px-6 py-2">Add to Cart</button>
-                </div>
+                </form>
             </div>
         </section>
 

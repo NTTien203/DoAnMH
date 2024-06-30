@@ -51,6 +51,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/js/**", "/", "/register", "/error", "/images/**", "/Detail/**", "/Product/**", "/login","/output.css")
                         .permitAll()
+                        .requestMatchers("/cart/**")
+                        .hasAnyAuthority("USER","EMPLOYEE","ADMIN")
                         .requestMatchers("/products/edit/**", "/products/add", "/products/delete")
                         .hasAnyAuthority("ADMIN")
                         .requestMatchers("/api/**")
@@ -70,6 +72,7 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/") // Chuyển hướng đến URL /Product sau khi đăng nhập thành công
+                        .defaultSuccessUrl("/Product")
                         .failureUrl("/login?error")
                         .permitAll()
                 )
