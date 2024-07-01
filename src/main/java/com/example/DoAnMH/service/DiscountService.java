@@ -23,14 +23,28 @@ public class DiscountService {
     }
 
 
-    public void addDiscount(Discount d) {
-        discountRepository.save(d);
+    public Optional<Discount> getCategoryById(Long id) {
+        return discountRepository.findById(id);
     }
 
-    public void deleteCategory(Long id) {
+    public void addCategory( Discount discount) {
+        discountRepository.save(discount);
+    }
+
+    public void UpdateDiscount(@NotNull Discount discount){
+        Discount existingDiscount=discountRepository.findById(discount.getId()).
+                orElseThrow(()->new IllegalArgumentException("NhanVien with Id"+
+                        discount.getId()+"does not exist."));
+
+        existingDiscount.setId(discount.getId());
+        existingDiscount.setDiscount(discount.getDiscount());
+    }
+
+    public void deleteDiscount(Long id) {
         if (!discountRepository.existsById(id)) {
             throw new IllegalStateException("Category with ID " + id + " does not exist.");
         }
         discountRepository.deleteById(id);
     }
+
 }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{LayoutAdmin}">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý danh mục</title>
+</head>
+<body>
+<div class="container-fluid" layout:fragment="Content">
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-center align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary mr-auto">Danh sách danh mục</h6>
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataCategoryTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Discount</th>
+                        <th>Action</th>
+
+                    </tr>
+                    </thead>
+
+                    <tbody th:each="discount :${discounts}">
+                        <td th:text="${discount.id}"></td>
+                        <td th:text="${discount.discount}"></td>
+                        <td>
+                            <a th:href="@{Discount/delete/{id}(id=${discount.id})}"
+                               class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa?')">Delete</a>
+                        </td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+</body>
+</html>
