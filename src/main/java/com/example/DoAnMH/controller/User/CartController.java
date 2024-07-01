@@ -40,7 +40,7 @@ public class CartController {
     @GetMapping
     public String showCart( User user, Model model) {
         int countCard=0;
-        long sum=0;
+        double sum=0;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User currentUser = userRepository.findByUsername(currentPrincipalName);
@@ -48,8 +48,12 @@ public class CartController {
         if(currentUser!=null){
             Cart cart = cartRepository.findByUserId(currentUser).orElseThrow(() -> new IllegalArgumentException("User not found: " ));
             for (CartItem cartItem: cart.getCartItems()) {
-                sum+=cartItem.getQuantity()*cartItem.getProduct().getPrice();
+                double disc = cartItem.getProduct().getDiscountId().getDiscount();
+                double sale = cartItem.getProduct().getPrice() * ((double) 1 -disc/(double) 100);
+                sum+=cartItem.getQuantity()*sale;
                 countCard+=  cartItem.getQuantity();
+                cartItem.getProduct().setImages(cartItem.getProduct().convertJsonToImages());
+                cartItem.getProduct().setPriceDiscount(sale);
             }
             if(cart!=null){
                 model.addAttribute("cartItems", cart.getCartItems());
@@ -64,23 +68,23 @@ public class CartController {
         return "error";
     }
 
-@PostMapping("/add")
-@Transactional
-public String addToCart(@RequestParam("itemId") Long id,
-                        @RequestParam("quantity") int quantity) {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String currentPrincipalName = authentication.getName();
-    User currentUser = userRepository.findByUsername(currentPrincipalName);
-    Product product= productService.getProductById(id).orElseThrow(() -> new IllegalArgumentException("User not find: " ));
-    if (currentUser != null) {
-        Cart cart = cartRepository.findByUserId(currentUser).orElse(null);
-        if (cart == null) {
-            List<CartItem> cartItems=new ArrayList<CartItem>() ;
-            cart = new Cart();
-            cart.setUserId(currentUser);
-            cart.setCartItems(cartItems);
-            cartRepository.save(cart);
-        }
+    @PostMapping("/add")
+    @Transactional
+    public String addToCart(@RequestParam("itemId") Long id,
+                            @RequestParam("quantity") int quantity) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User currentUser = userRepository.findByUsername(currentPrincipalName);
+        Product product= productService.getProductById(id).orElseThrow(() -> new IllegalArgumentException("User not find: " ));
+        if (currentUser != null) {
+            Cart cart = cartRepository.findByUserId(currentUser).orElse(null);
+            if (cart == null) {
+                List<CartItem> cartItems=new ArrayList<CartItem>() ;
+                cart = new Cart();
+                cart.setUserId(currentUser);
+                cart.setCartItems(cartItems);
+                cartRepository.save(cart);
+            }
 
             CartItem existingItem = cart.getCartItems().stream()
                     .filter(item -> item.getProduct().getId().equals(id))
@@ -103,8 +107,8 @@ public String addToCart(@RequestParam("itemId") Long id,
             return "redirect:/cart";
         }
 
-    return "error";
-}
+        return "error";
+    }
 
     @GetMapping("/delete/{id}")
     public String deleteCart(@PathVariable Long id) {
