@@ -27,7 +27,6 @@ public class SecurityConfig {
     @Autowired
     private final UserService userService;
 
-
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserService();
@@ -45,13 +44,15 @@ public class SecurityConfig {
         auth.setPasswordEncoder(passwordEncoder()); // Thiết lập cơ chế mã hóa mật khẩu.
         return auth; // Trả về nhà cung cấp xác thực.
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/", "/register", "/error",
-                                "/products", "/cart", "/cart/**", "/nhanvien/**", "/images/**","/")
+                        .requestMatchers("/css/**", "/js/**", "/", "/register", "/error", "/images/**", "/Detail/**", "/Product/**", "/login","/output.css")
                         .permitAll()
+                        .requestMatchers("/cart/**")
+                        .hasAnyAuthority("USER","EMPLOYEE","ADMIN")
                         .requestMatchers("/products/edit/**", "/products/add", "/products/delete")
                         .hasAnyAuthority("ADMIN")
                         .requestMatchers("/api/**")
@@ -70,7 +71,8 @@ public class SecurityConfig {
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/admin")
+                        .defaultSuccessUrl("/") // Chuyển hướng đến URL /Product sau khi đăng nhập thành công
+                        .defaultSuccessUrl("/Product")
                         .failureUrl("/login?error")
                         .permitAll()
                 )

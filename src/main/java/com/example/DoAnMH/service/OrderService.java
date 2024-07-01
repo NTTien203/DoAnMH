@@ -60,7 +60,6 @@ public class OrderService {
                 order.getOrderDetails().add(detail);
                 CartItem cartItem=cart.getCartItems().get(i);
                 orderDetailRepository.save(detail);
-
             }
 
             order.setTotalAmount(sum);

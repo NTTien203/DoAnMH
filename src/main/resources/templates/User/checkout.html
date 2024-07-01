@@ -9,17 +9,17 @@
 </head>
 <body>
 <div class="container-fluid" layout:fragment="Content1">
-    <h1>Place Your Order</h1>
+    <h1>Đặt hàng của bạn</h1>
     <form th:action="@{/submit}" method="post">
         <div class="mb-3">
-            <label for="address" class="form-label">address:</label>
+            <label for="address" class="form-label">Địa chỉ:</label>
             <input type="text" id="address" name="address" class="formcontrol" required>
         </div>
         <div class="mb-3">
-            <label for="description" class="form-label">description:</label>
+            <label for="description" class="form-label">Mô tả:</label>
             <input type="description" id="description" name="description" class="formcontrol" required>
         </div>
-        <button type="submit" class="btn btn-primary">Submit Order</button>
+        <button type="submit" class="btn btn-primary">Đặt đơn</button>
     </form>
 </div>
 </body>

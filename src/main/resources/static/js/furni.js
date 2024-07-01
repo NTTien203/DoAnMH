@@ -1,73 +1,51 @@
-(function () {
-    "use strict";
+// Code for opening and closing lightbox
+function openLightbox(element) {
+    const imageSrc = element.src;
+    const lightbox = document.querySelector('.lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
 
-    //var tinyslider = function () {
-    //    var el = document.querySelectorAll(".testimonial-slider");
+    lightboxImage.src = imageSrc;
+    lightbox.style.display = 'block';
+}
 
-    //    if (el.length > 0) {
-    //        var slider = tns({
-    //            container: ".testimonial-slider",
-    //            items: 1,
-    //            axis: "horizontal",
-    //            controlsContainer: "#testimonial-nav",
-    //            swipeAngle: false,
-    //            speed: 700,
-    //            nav: true,
-    //            controls: true,
-    //            autoplay: true,
-    //            autoplayHoverPause: true,
-    //            autoplayTimeout: 3500,
-    //            autoplayButtonOutput: false,
-    //        });
-    //    }
-    //};
-    //tinyslider();
+function closeLightbox() {
+    const lightbox = document.querySelector('.lightbox');
+    lightbox.style.display = 'none';
+}
 
-    var sitePlusMinus = function () {
-        var value,
-            quantity = document.getElementsByClassName("quantity-container");
+// Code for showing and hiding arrows on hover
+var imgContainer = document.querySelector('.relative');
+imgContainer.addEventListener('mouseenter', function() {
+    var arrows = imgContainer.querySelectorAll('.bi');
+    arrows.forEach(function(arrow) {
+        arrow.style.display = 'block';
+    });
+});
+imgContainer.addEventListener('mouseleave', function() {
+    var arrows = imgContainer.querySelectorAll('.bi');
+    arrows.forEach(function(arrow) {
+        arrow.style.display = 'none';
+    });
+});
 
-        function createBindings(quantityContainer) {
-            var quantityAmount =
-                quantityContainer.getElementsByClassName("quantity-amount")[0];
-            var increase =
-                quantityContainer.getElementsByClassName("increase")[0];
-            var decrease =
-                quantityContainer.getElementsByClassName("decrease")[0];
-            increase.addEventListener("click", function (e) {
-                increaseValue(e, quantityAmount);
-            });
-            decrease.addEventListener("click", function (e) {
-                decreaseValue(e, quantityAmount);
-            });
-        }
+// Code for image navigation
+var arr_hinh = [
+    "/images/AcerNB.jpg",
+    "/images/AcerDS.jpg",
+    "/images/AsusDS.jpg",
+    "/images/laptopMSI.jpg"
+];
 
-        function init() {
-            for (var i = 0; i < quantity.length; i++) {
-                createBindings(quantity[i]);
-            }
-        }
+var index = 0;
 
-        function increaseValue(event, quantityAmount) {
-            value = parseInt(quantityAmount.value, 10);
+function prevImage() {
+    index--;
+    if (index < 0) index = arr_hinh.length - 1;
+    document.getElementById("hinh").src = arr_hinh[index];
+}
 
-            console.log(quantityAmount, quantityAmount.value);
-
-            value = isNaN(value) ? 0 : value;
-            value++;
-            quantityAmount.value = value;
-        }
-
-        function decreaseValue(event, quantityAmount) {
-            value = parseInt(quantityAmount.value, 10);
-
-            value = isNaN(value) ? 0 : value;
-            if (value > 0) value--;
-
-            quantityAmount.value = value;
-        }
-
-        init();
-    };
-    sitePlusMinus();
-})();
+function nextImage() {
+    index++;
+    if (index == arr_hinh.length) index = 0;
+    document.getElementById("hinh").src = arr_hinh[index];
+}

@@ -19,6 +19,6 @@ public class Discount {
     private Long id;
 
     @NotBlank(message = "Hãy nhập % giảm giá!!")
-    private int discount;
+    private Double discount;
 
 }

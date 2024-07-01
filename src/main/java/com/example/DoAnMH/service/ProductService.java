@@ -4,6 +4,9 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import com.example.DoAnMH.model.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.example.DoAnMH.repository.ProductRepository;
 
@@ -26,14 +29,18 @@ public class ProductService {
     public void addProduct( Product product) {
          productRepository.save(product);
     }
-
+    public List<Product> getProductsSortedByDiscount() {
+        return productRepository.findAllByOrderByDiscountDesc();
+    }
+    public List<Product> getProductsByCategoryName(String categoryName) {
+        return productRepository.findAllByCategoryName(categoryName);
+    }
     public void UpdateProduct(@NotNull Product product){
         Product existingProduct=productRepository.findById(product.getId()).
                 orElseThrow(()->new IllegalArgumentException("NhanVien with Id"+
                         product.getId()+"does not exist."));
         existingProduct.setName(product.getName());
         existingProduct.setCategoryId(product.getCategoryId());
-        existingProduct.setImages(product.getImages());
         existingProduct.setDescription(product.getDescription());
         existingProduct.setImagesJson(product.getImagesJson());
         existingProduct.setQuantityStock(product.getQuantityStock());
@@ -48,5 +55,18 @@ public class ProductService {
         }
         productRepository.deleteById(id);
     }
+
+    public Page<Product> findPaginated(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findAll(pageable);
+    }
+//    public Page<Product> getProductsByCategoriesAndPrice(List<String> categories, Double price, int page, int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        if (categories != null && price != null) {
+//            return productRepository.findByCategoryInAndPriceOrderByPriceDesc(categories, price, pageable);
+//        } else {
+//            return productRepository.findAll(pageable);
+//        }
+//    }
 
 }

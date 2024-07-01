@@ -6,7 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" th:href="@{output.css}">
 </head>
+
 <body>
 <div class="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100">
     <div class="container-fluid" layout:fragment="Content1">
@@ -14,7 +16,7 @@
         <div style="background-image: url('/images/bgim.jpg');  background-position: center; ">
             <section class="container mx-auto py-16 px-6 text-center" >
                 <h1 class="text-4xl font-bold mb-4">Find Clothes That Matches Your Style</h1>
-                <p class="mb-8">Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.</p>
+                <p class="mb-8">Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and catenamer to your sense of style.</p>
                 <button class="bg-black text-white px-6 py-2 rounded-lg">Shop Now</button>
                 <div class="flex justify-center space-x-8 mt-8">
                     <div>
@@ -34,190 +36,145 @@
         </div>
         <section class="bg-zinc-100 dark:bg-zinc-800 py-8">
             <div class="container mx-auto flex justify-around">
-                <a href="link-to-versace" class="h-12">
-                    <img src="/images/logo-acer-149x40.png" alt="Versace" class="h-full">
-                </a>
-                <a href="link-to-zara" class="h-12">
-                    <img src="/images/logo-asus-149x40.png" alt="Zara" class="h-full">
-                </a>
-                <a href="link-to-gucci" class="h-12">
-                    <img src="/images/logo-dell-149x40.png" alt="Gucci" class="h-full">
-                </a>
-                <a href="link-to-prada" class="h-12">
-                    <img src="/images/logo-hp-149x40-1.png" alt="Prada" class="h-full">
-                </a>
-                <a href="link-to-calvin-klein" class="h-12">
-                    <img src="/images/logo-lenovo-149x40.png" alt="Calvin Klein" class="h-full">
-                </a>
-                <a href="link-to-calvin-klein" class="h-12">
-                    <img src="/images/logo-macbook-149x40.png" alt="Calvin Klein" class="h-full">
-                </a>
+                <form th:action="@{/Product}" method="post">
+                    <input type="hidden" name="catename" th:value="acer">
+                    <button type="submit"  class="h-12">
+                        <img src="/images/logo-acer-149x40.png" alt="Versace" class="h-full">
+                    </button>
+                </form>
+                <form th:action="@{/Product}" method="post">
+                    <input type="hidden" name="catenamename" th:value="asus">
+                    <button type="submit"  class="h-12">
+                        <img src="/images/logo-asus-149x40.png" alt="Zara" class="h-full">
 
+                    </button>
+                </form>
+                <form th:action="@{/Product}" method="post">
+                    <input type="hidden" name="catenamename" th:value="dell">
+                    <button type="submit"  class="h-12">
+                        <img src="/images/logo-dell-149x40.png" alt="Gucci" class="h-full">
+                    </button>
+                </form>
+                <form th:action="@{/Product}" method="post">
+                    <input type="hidden" name="catenamename" th:value="lenovo">
+                    <button type="submit"  class="h-12">
+                        <img src="/images/logo-lenovo-149x40.png" alt="Calvin Klein" class="h-full">
+                    </button>
+                </form>
+                <form th:action="@{/Product}" method="post">
+                    <input type="hidden" name="catename" th:value="hp">
+                    <button type="submit"  class="h-12">
+                        <img src="/images/logo-hp-149x40-1.png" alt="Prada" class="h-full">
+                    </button>
+                </form>
+                <form th:action="@{/Product}" method="post">
+                    <input type="hidden" name="catename" th:value="macbook">
+                    <button type="submit"  class="h-12">
+                        <img src="/images/logo-macbook-149x40.png" alt="Calvin Klein" class="h-full">
+                    </button>
+                </form>
             </div>
         </section>
 
-        <section class="container mx-auto py-16 px-6">
+        <section class="container mx-auto py-16 px-6" style="background-color: #F9E79F;">
             <h2 class="text-3xl font-bold mb-8 text-center">Deal Sốc</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-
-      a          <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow"  th:each="product:${products}">
-                    <img src="/images/AcerDS.jpg" alt="T-shirt with Tape Details" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="font-bold" th:text="${product.name}"></h3>
-                    <div class="flex items-center mb-2">
-                        <span class="text-yellow-500">★★★★☆</span>
-                        <span class="ml-2 text-zinc-600 dark:text-zinc-400">4.5/5</span>
+                <div  th:each="product : ${sales}">
+                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
+                        <img th:src="@{${product.images[0]}}"  class="w-full h-48 object-cover rounded-lg mb-4">
+                        <a th:href="@{/Detail/{id}(id=${product.id})}" >
+                            <h3 class="font-bold" th:text="${product.name}"></h3>
+                        </a>
+                        <div class="flex items-center mb-2">
+                            <span class="text-yellow-500">★★★★☆</span>
+                            <span class="ml-2 text-zinc-600 dark:text-zinc-400">4.5/5</span>
+                        </div>
+                        <!--                        <p class="text-lg font-bold">$120</p>-->
+                        <p class="line-through text-zinc-500" th:text="${product.price} + ' VNĐ'"></p>
+                        <span th:if="${product.priceDiscount != null}">
+                                 <p class="text-lg font-bold" th:text="${product.priceDiscount}+' VNĐ'"></p>
+                                 <p class="text-red-500" th:text="'-'+${product.discountId.discount}+'%'"></p>
+                            </span>
                     </div>
-                    <p class="text-lg font-bold" th:text="'$'+${product.price}">$120</p>
+
                 </div>
 
-
-
             </div>
-            <div class="text-center mt-8">
-                <button class="bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 px-6 py-2 rounded-lg">View All</button>
-            </div>
+            <form th:action="@{/Product}" method="post">
+                <input  type="hidden" name="view" value="1">
+                <div class="text-center mt-8">
+                    <button type="submit" class="bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 px-6 py-2 rounded-lg">Xem tất cả danh sách</button>
+                </div>
+            </form>
         </section>
 
-        <section class="container mx-auto py-16 px-6">
+        <section class="container mx-auto py-16 px-6" style="background-color: #FADBD8;">
             <h2 class="text-3xl font-bold mb-8 text-center">Nổi bật</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
-                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                    <img src="/images/AcerNB.jpg" alt="Vertical Striped Shirt" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="font-bold">Vertical Striped Shirt</h3>
-                    <div class="flex items-center mb-2">
-                        <span class="text-yellow-500">★★★★★</span>
-                        <span class="ml-2 text-zinc-600 dark:text-zinc-400">5.0/5</span>
+                <div  th:each="product : ${products}">
+                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
+                        <img th:src="@{${product.images[0]}}"  class="w-full h-48 object-cover rounded-lg mb-4">
+                        <a th:href="@{/Detail/{id}(id=${product.id})}" >
+                            <h3 class="font-bold" th:text="${product.name}"></h3>
+                        </a>
+                        <div class="flex items-center mb-2">
+                            <span class="text-yellow-500">★★★★☆</span>
+                            <span class="ml-2 text-zinc-600 dark:text-zinc-400">4.5/5</span>
+                        </div>
+                        <!--                        <p class="text-lg font-bold">$120</p>-->
+                        <span th:if="${product.priceDiscount > 0}">
+                            <p class="line-through text-zinc-500" th:text="${product.price} + ' VNĐ'"></p>
+                                 <p class="text-lg font-bold" th:text="${product.priceDiscount}+' VNĐ'"></p>
+                                 <p class="text-red-500" th:text="'-'+${product.discountId.discount}+'%'"></p>
+                        </span>
+                        <span th:unless="${product.priceDiscount > 0}">
+                                <p class="text-lg font-bold" th:text="${product.price}+' VNĐ'"></p>
+                        </span>
                     </div>
-                    <p class="text-lg font-bold">$212</p>
                 </div>
-
-                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                    <img src="/images/AcerNB2.jpg" alt="Vertical Striped Shirt" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="font-bold">Vertical Striped Shirt</h3>
-                    <div class="flex items-center mb-2">
-                        <span class="text-yellow-500">★★★★★</span>
-                        <span class="ml-2 text-zinc-600 dark:text-zinc-400">5.0/5</span>
-                    </div>
-                    <p class="text-lg font-bold">$212</p>
-                </div>
-
-                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                    <img src="/images/hpvicturNB.jpg" alt="Vertical Striped Shirt" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="font-bold">Vertical Striped Shirt</h3>
-                    <div class="flex items-center mb-2">
-                        <span class="text-yellow-500">★★★★★</span>
-                        <span class="ml-2 text-zinc-600 dark:text-zinc-400">5.0/5</span>
-                    </div>
-                    <p class="text-lg font-bold">$212</p>
-                </div>
-
-                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                    <img src="/images/lenovoNB.jpg" alt="Vertical Striped Shirt" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="font-bold">Vertical Striped Shirt</h3>
-                    <div class="flex items-center mb-2">
-                        <span class="text-yellow-500">★★★★★</span>
-                        <span class="ml-2 text-zinc-600 dark:text-zinc-400">5.0/5</span>
-                    </div>
-                    <p class="text-lg font-bold">$212</p>
-                </div>
-
-                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                    <img src="/images/MSINB.jpg" alt="Vertical Striped Shirt" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="font-bold">Vertical Striped Shirt</h3>
-                    <div class="flex items-center mb-2">
-                        <span class="text-yellow-500">★★★★★</span>
-                        <span class="ml-2 text-zinc-600 dark:text-zinc-400">5.0/5</span>
-                    </div>
-                    <p class="text-lg font-bold">$212</p>
-                </div>
-
             </div>
-            <div class="text-center mt-8">
-                <button class="bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 px-6 py-2 rounded-lg">View All</button>
-            </div>
+            <form th:action="@{/Product}" method="post">
+                <input  type="hidden" name="view">
+                <div class="text-center mt-8">
+                    <button type="submit" class="bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 px-6 py-2 rounded-lg">Xem tất cả danh sách</button>
+                </div>
+            </form>
         </section>
 
 
-        <section class="container mx-auto py-16 px-6">
+        <section class="container mx-auto py-16 px-6" style="background-color: #3498DB;">
             <h2 class="text-3xl font-bold mb-8 text-center">MacBook</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-
-                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                    <img src="/images/MacA13.jpg" alt="Vertical Striped Shirt" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="font-bold">Vertical Striped Shirt</h3>
-                    <div class="flex items-center mb-2">
-                        <span class="text-yellow-500">★★★★★</span>
-                        <span class="ml-2 text-zinc-600 dark:text-zinc-400">5.0/5</span>
-                    </div>
-                    <p class="text-lg font-bold">$212</p>
-                </div>
-
-                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                    <img src="/images/MacA15.jpg" alt="Vertical Striped Shirt" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="font-bold">Vertical Striped Shirt</h3>
-                    <div class="flex items-center mb-2">
-                        <span class="text-yellow-500">★★★★★</span>
-                        <span class="ml-2 text-zinc-600 dark:text-zinc-400">5.0/5</span>
-                    </div>
-                    <p class="text-lg font-bold">$212</p>
-                </div>
-
-                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                    <img src="/images/MacPro14.jpg" alt="Vertical Striped Shirt" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="font-bold">Vertical Striped Shirt</h3>
-                    <div class="flex items-center mb-2">
-                        <span class="text-yellow-500">★★★★★</span>
-                        <span class="ml-2 text-zinc-600 dark:text-zinc-400">5.0/5</span>
-                    </div>
-                    <p class="text-lg font-bold">$212</p>
-                </div>
-
-
-            </div>
-            <div class="text-center mt-8">
-                <button class="bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 px-6 py-2 rounded-lg">View All</button>
-            </div>
-        </section>
-
-        <section class="container mx-auto py-16 px-6">
-            <h2 class="text-3xl font-bold mb-8 text-center">Browse by Dress Style</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-
-                <div class="relative">
-                    <img src="https://placehold.co/300x200" alt="Casual" class="w-full h-48 object-cover rounded-lg">
-                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-xl font-bold">Casual</div>
-                </div>
-
-            </div>
-        </section>
-
-        <section class="container mx-auto py-16 px-6">
-            <h2 class="text-3xl font-bold mb-8 text-center">Our Happy Customers</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-
-                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
-                    <div class="flex items-center mb-4">
-                        <img src="https://placehold.co/50" alt="Customer" class="w-12 h-12 rounded-full mr-4">
-                        <div>
-                            <p class="font-bold">Sarah M.</p>
-                            <div class="text-yellow-500">★★★★★</div>
+                <div  th:each="product : ${macbooks}">
+                    <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow">
+                        <img th:src="@{${product.images[0]}}"  class="w-full h-48 object-cover rounded-lg mb-4">
+                        <a th:href="@{/Detail/{id}(id=${product.id})}" >
+                            <h3 class="font-bold" th:text="${product.name}"></h3>
+                        </a>
+                        <div class="flex items-center mb-2">
+                            <span class="text-yellow-500">★★★★☆</span>
+                            <span class="ml-2 text-zinc-600 dark:text-zinc-400">4.5/5</span>
                         </div>
+                        <!--                        <p class="text-lg font-bold">$120</p>-->
+                        <span th:if="${product.priceDiscount > 0}">
+                            <p class="line-through text-zinc-500" th:text="${product.price} + ' VNĐ'"></p>
+                                 <p class="text-lg font-bold" th:text="${product.priceDiscount}+' VNĐ'"></p>
+                                 <p class="text-red-500" th:text="'-'+${product.discountId.discount}+'%'"></p>
+                        </span>
+                        <span th:unless="${product.priceDiscount > 0}">
+                                <p class="text-lg font-bold" th:text="${product.price}+' VNĐ'"></p>
+                        </span>
                     </div>
-                    <p>"I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations."</p>
                 </div>
 
             </div>
-        </section>
-
-        <section class="bg-black text-white py-16">
-            <div class="container mx-auto text-center">
-                <h2 class="text-3xl font-bold mb-4">Stay Up to Date About Our Latest Offers</h2>
-                <form class="flex justify-center mt-4">
-                    <input type="email" placeholder="Enter your email address" class="px-4 py-2 rounded-l-lg border-none">
-                    <button class="bg-white text-black px-6 py-2 rounded-r-lg">Subscribe to Newsletter</button>
-                </form>
-            </div>
+            <form th:action="@{/Product}" method="post">
+                <input  type="hidden" name="view" value="2">
+                <div class="text-center mt-8">
+                    <button type="submit" class="bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 px-6 py-2 rounded-lg">Xem tất cả danh sách</button>
+                </div>
+            </form>
         </section>
 
     </div>

@@ -43,7 +43,9 @@ public class VNPAYController {
         if (currentUser != null) {
             Cart cart = cartRepository.findByUserId(currentUser).orElseThrow(() -> new IllegalArgumentException("User not found: "));
             for (CartItem cartItem : cart.getCartItems()) {
-                sum += cartItem.getQuantity() * cartItem.getProduct().getPrice();
+                double disc = cartItem.getProduct().getDiscountId().getDiscount();
+                double sale = cartItem.getProduct().getPrice() * ((double) 1 -disc/(double) 100);
+                sum+=cartItem.getQuantity()*sale;
             }
             if (cart != null) {
                 model.addAttribute("sum", sum);
