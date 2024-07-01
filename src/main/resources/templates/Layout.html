@@ -25,12 +25,26 @@
                     <button class="border rounded-lg px-3 py-1 dark:bg-zinc-800 dark:border-zinc-700" style="background-color: Black; color: White;">Tìm kiếm</button>
                     <div sec:authorize="isAuthenticated()">
                         <span>Xin chào, <span th:text="${#authentication.name}"></span>!</span>
+
                     </div>
                     <div sec:authorize="!isAuthenticated()">
                         <a th:href=@{/login} class="hover:text-zinc-700 dark:hover:text-zinc-300">Đăng nhập</a>
                     </div>
                 </div>
             </form>
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-footer" sec:authorize="isAuthenticated()">
+                            <form th:action="@{/logout}" method="post">
+                                <button class="btn btn-outline-light"
+                                        type="submit">Logout</button>
+                            </form>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
